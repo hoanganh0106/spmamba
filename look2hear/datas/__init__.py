@@ -7,9 +7,11 @@
 from .echo2mix_datamodule import Echo2MixDataModule
 from .libri2mixdatamodule import Libri2MixDataModule
 from .whamdatamodule import WhamDataModule
+from .threespeaker_datamodule import ThreeSpeakerDataModule
 
 __all__ = [
     "Echo2MixDataModule",
     "Libri2MixDataModule",
     "WhamDataModule",
+    "ThreeSpeakerDataModule",
 ]

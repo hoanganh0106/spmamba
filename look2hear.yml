@@ -11,14 +11,14 @@ dependencies:
   - libgomp=11.2.0=h1234567_1
   - libstdcxx-ng=11.2.0=h1234567_1
   - ncurses=6.4=h6a678d5_0
-  - openssl=1.1.1t=h7f8727e_0
-  - pip=23.0.1=py39h06a4308_0
-  - python=3.9.16=h7a1cb2a_2
+  - openssl=3.0.13=h7f8727e_0
+  - pip=23.3.1=py310h06a4308_0
+  - python=3.10.13=h955ad1f_0
   - readline=8.2=h5eee18b_0
-  - setuptools=66.0.0=py39h06a4308_0
+  - setuptools=68.0.0=py310h06a4308_0
   - sqlite=3.41.2=h5eee18b_0
   - tk=8.6.12=h1ccaba5_0
-  - wheel=0.38.4=py39h06a4308_0
+  - wheel=0.41.2=py310h06a4308_0
   - xz=5.4.2=h5eee18b_0
   - zlib=1.2.13=h5eee18b_0
   - pip:
@@ -58,7 +58,6 @@ dependencies:
       - contourpy==1.2.0
       - crcmod==1.7
       - cryptography==41.0.5
-      - ctcdecode==1.0.3
       - cycler==0.12.1
       - datasets==2.13.0
       - debugpy==1.8.0
@@ -154,18 +153,8 @@ dependencies:
       - notebook-shim==0.2.3
       - numba==0.57.0
       - numpy==1.24.3
-      - nvidia-cublas-cu11==11.10.3.66
-      - nvidia-cuda-cupti-cu11==11.7.101
-      - nvidia-cuda-nvrtc-cu11==11.7.99
-      - nvidia-cuda-runtime-cu11==11.7.99
-      - nvidia-cudnn-cu11==8.5.0.96
-      - nvidia-cufft-cu11==10.9.0.58
-      - nvidia-curand-cu11==10.2.10.91
-      - nvidia-cusolver-cu11==11.4.0.1
-      - nvidia-cusparse-cu11==11.7.4.91
-      - nvidia-ml-py==11.525.112
-      - nvidia-nccl-cu11==2.14.3
-      - nvidia-nvtx-cu11==11.7.91
+      # nvidia-*-cu11 packages removed: provided by system CUDA 12
+      - nvidia-ml-py==12.535.108
       - omegaconf==2.3.0
       - opencv-python==4.7.0.72
       - optuna==3.4.0
@@ -249,19 +238,19 @@ dependencies:
       - tokenizers==0.15.2
       - tomli==2.0.1
       - toolz==0.12.0
-      - torch==2.0.0
+      - torch==2.5.0
       - torch-complex==0.4.3
       - torch-mir-eval==0.4
       - torch-optimizer==0.3.0
-      - torchaudio==2.0.1
+      - torchaudio==2.5.0
       - torchelastic==0.2.2
       - torchmetrics==0.11.4
-      - torchvision==0.15.1
+      - torchvision==0.20.0
       - tornado==6.3.3
       - tqdm==4.65.0
       - traitlets==5.13.0
       - transformers==4.38.2
-      - triton==2.0.0
+      - triton==3.0.0
       - typeguard==2.13.3
       - types-python-dateutil==2.8.19.14
       - typing-extensions==4.8.0

@@ -2,28 +2,28 @@
 audionet:
   audionet_name: SPMamba
   audionet_config:
-    input_dim: 64
+    input_dim: 257        # n_fft//2+1 frequency bins
     n_srcs: 2
-    n_fft: 256
-    stride: 64
+    n_fft: 512             # paper: 512-point STFT
+    stride: 128            # paper: hop_length=128
     window: hann
     n_imics: 1
-    n_layers: 6
-    lstm_hidden_units: 256
+    n_layers: 6            # paper: B=6 blocks
+    lstm_hidden_units: 128 # paper: H=128 (each direction)
     attn_n_head: 4
     attn_approx_qk_dim: 512
-    emb_dim: 16
-    emb_ks: 8
-    emb_hs: 1
+    emb_dim: 128           # paper: C=128 embedding channels
+    emb_ks: 8              # paper: K=8 kernel size
+    emb_hs: 1              # paper: S=1 stride
     activation: prelu
     eps: 1.0e-5
-    use_builtin_complex: False
+    use_builtin_complex: True
 
 # Loss config
 loss:
   train:
     loss_func: PITLossWrapper
-    sdr_type: pairwise_neg_snr
+    sdr_type: pairwise_neg_sisdr  # paper: SI-SNR with PIT
     config:
       pit_from: pw_mtx
       threshold_byloss: false
@@ -67,8 +67,8 @@ datamodule:
     valid_dir: DataPreProcess/wsj0/cv
     test_dir: DataPreProcess/wsj0/tt
     n_src: 2
-    sample_rate: 8000
-    segment: 4.0
+    sample_rate: 16000     # paper: 16 kHz
+    segment: 3.0           # paper: 3s audio clips
     normalize_audio: false
     batch_size: 1
     num_workers: 8

@@ -20,9 +20,20 @@ from ..utils.get_layer_from_string import get_layer
 from .base_model import BaseModel
 
 from functools import partial
-from mamba_ssm.modules.mamba_simple import Mamba, Block
-from mamba_ssm.models.mixer_seq_simple import _init_weights
-from mamba_ssm.ops.triton.layernorm import RMSNorm
+from mamba_ssm.modules.mamba_simple import Mamba
+# mamba-ssm v2.x moved Block and _init_weights
+try:
+    from mamba_ssm.modules.block import Block                    # v2.x
+except ImportError:
+    from mamba_ssm.modules.mamba_simple import Block             # v1.x
+try:
+    from mamba_ssm.utils.generation import _init_weights         # v2.x
+except ImportError:
+    from mamba_ssm.models.mixer_seq_simple import _init_weights  # v1.x
+try:
+    from mamba_ssm.ops.triton.layer_norm import RMSNorm          # v2.x
+except ImportError:
+    from mamba_ssm.ops.triton.layernorm import RMSNorm           # v1.x
 
 class MambaBlock(nn.Module):
     def __init__(self, in_channels, n_layer=1, bidirectional=False):
@@ -33,6 +44,7 @@ class MambaBlock(nn.Module):
                 Block(
                     in_channels,
                     mixer_cls=partial(Mamba, layer_idx=i, d_state=16, d_conv=4, expand=4),
+                    mlp_cls=nn.Identity,
                     norm_cls=partial(RMSNorm, eps=1e-5),
                     fused_add_norm=False,
                 )
@@ -44,6 +56,7 @@ class MambaBlock(nn.Module):
                         Block(
                         in_channels,
                         mixer_cls=partial(Mamba, layer_idx=i, d_state=16, d_conv=4, expand=4),
+                        mlp_cls=nn.Identity,
                         norm_cls=partial(RMSNorm, eps=1e-5),
                         fused_add_norm=False,
                     )
@@ -501,7 +514,9 @@ class SPMamba(BaseModel):
         batch = self.conv(batch)  # [B, -1, T, F]
 
         for ii in range(self.n_layers):
-            batch = self.blocks[ii](batch)  # [B, -1, T, F]
+            batch = torch.utils.checkpoint.checkpoint(
+                self.blocks[ii], batch, use_reentrant=False
+            )  # [B, -1, T, F]
 
         batch = self.deconv(batch)  # [B, n_srcs*2, T, F]
 
@@ -556,23 +571,20 @@ class GridNetBlock(nn.Module):
 
         self.intra_norm = LayerNormalization4D(emb_dim, eps=eps)
         
-        self.intra_mamba = MambaBlock(in_channels, 1, True)
-        # self.intra_rnn = nn.LSTM(
-        #     in_channels, hidden_channels, 1, batch_first=True, bidirectional=True
-        # )
+        self.intra_proj = nn.Linear(in_channels, hidden_channels)
+        self.intra_mamba = MambaBlock(hidden_channels, 1, True)
         
         self.intra_linear = nn.ConvTranspose1d(
-            in_channels * 2, emb_dim, emb_ks, stride=emb_hs
+            hidden_channels * 2, emb_dim, emb_ks, stride=emb_hs
         )
         
         self.inter_norm = LayerNormalization4D(emb_dim, eps=eps)
-        self.inter_mamba = MambaBlock(in_channels, 1, True)
+
+        self.inter_proj = nn.Linear(in_channels, hidden_channels)
+        self.inter_mamba = MambaBlock(hidden_channels, 1, True)
         
-        # self.inter_rnn = nn.LSTM(
-        #     in_channels, hidden_channels, 1, batch_first=True, bidirectional=True
-        # )
         self.inter_linear = nn.ConvTranspose1d(
-            in_channels * 2, emb_dim, emb_ks, stride=emb_hs
+            hidden_channels * 2, emb_dim, emb_ks, stride=emb_hs
         )
 
         E = math.ceil(
@@ -640,8 +652,9 @@ class GridNetBlock(nn.Module):
             intra_rnn[..., None], (self.emb_ks, 1), stride=(self.emb_hs, 1)
         )  # [BT, C*emb_ks, -1]
         intra_rnn = intra_rnn.transpose(1, 2)  # [BT, -1, C*emb_ks]
-        intra_rnn = self.intra_mamba(intra_rnn)  # [BT, -1, H]
-        intra_rnn = intra_rnn.transpose(1, 2)  # [BT, H, -1]
+        intra_rnn = self.intra_proj(intra_rnn)
+        intra_rnn = self.intra_mamba(intra_rnn)  # [BT, -1, H*2]
+        intra_rnn = intra_rnn.transpose(1, 2)  # [BT, H*2, -1]
         intra_rnn = self.intra_linear(intra_rnn)  # [BT, C, Q]
         intra_rnn = intra_rnn.view([B, T, C, Q])
         intra_rnn = intra_rnn.transpose(1, 2).contiguous()  # [B, C, T, Q]
@@ -657,8 +670,9 @@ class GridNetBlock(nn.Module):
             inter_rnn[..., None], (self.emb_ks, 1), stride=(self.emb_hs, 1)
         )  # [BF, C*emb_ks, -1]
         inter_rnn = inter_rnn.transpose(1, 2)  # [BF, -1, C*emb_ks]
-        inter_rnn = self.inter_mamba(inter_rnn)  # [BF, -1, H]
-        inter_rnn = inter_rnn.transpose(1, 2)  # [BF, H, -1]
+        inter_rnn = self.inter_proj(inter_rnn)
+        inter_rnn = self.inter_mamba(inter_rnn)  # [BF, -1, H*2]
+        inter_rnn = inter_rnn.transpose(1, 2)  # [BF, H*2, -1]
         inter_rnn = self.inter_linear(inter_rnn)  # [BF, C, T]
         inter_rnn = inter_rnn.view([B, Q, C, T])
         inter_rnn = inter_rnn.permute(0, 2, 3, 1).contiguous()  # [B, C, T, Q]
