@@ -79,7 +79,7 @@ scheduler:
 datamodule:
   data_name: H5DataModule
   data_config:
-    h5_path: /content/drive/MyDrive/data_30h.h5   # Google Drive path
+    h5_path: /content/data_30h.h5                 # Local Colab path
     n_src: 3
     sample_rate: 16000
     segment: 4.0                      # Kept at 4s to match dataset
