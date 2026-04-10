@@ -140,7 +140,7 @@ def main(config):
     print_only("Instantiating ModelCheckpoint")
     callbacks = []
     checkpoint_dir = os.path.join(exp_dir)
-    # Callback lưu model xịn nhất cuối mỗi Epoch
+    # Callback lưu model xịn nhất cuối mỗi Epoch (không save_last ở đây)
     checkpoint = ModelCheckpoint(
         checkpoint_dir,
         filename="{epoch}-best",
@@ -148,17 +148,18 @@ def main(config):
         mode="min",
         save_top_k=5,
         verbose=True,
-        save_last=True,
+        save_last=False,
     )
     callbacks.append(checkpoint)
 
-    # Callback lưu backup tự động giữa chừng mỗi 100 batch
+    # Callback lưu last.ckpt mỗi 200 steps (~38 phút trên T4)
+    # Đảm bảo không mất tiến trình khi Colab ngắt (4 giờ/phiên)
     step_checkpoint = ModelCheckpoint(
         dirpath=checkpoint_dir,
         filename="backup-{epoch}-{step}",
-        every_n_train_steps=100,
-        save_top_k=-1, # Giữ lại tất cả các bản backup (file nhẹ nên không sợ đầy)
-        save_last=False,
+        every_n_train_steps=200,
+        save_top_k=3,       # Giữ 3 backup gần nhất, tiết kiệm Drive
+        save_last=True,      # Cập nhật last.ckpt mỗi 200 steps
     )
     callbacks.append(step_checkpoint)
 
