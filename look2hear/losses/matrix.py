@@ -53,6 +53,9 @@ class PairwiseNegSDR(_Loss):
         )
         if self.take_log:
             pair_wise_sdr = 10 * torch.log10(pair_wise_sdr + self.EPS)
+        # Safety: ensure real output under fp16/mixed precision
+        if pair_wise_sdr.is_complex():
+            pair_wise_sdr = pair_wise_sdr.real
         return -pair_wise_sdr
 
 

@@ -83,6 +83,9 @@ class PITLossWrapper(nn.Module):
         loss_set = torch.stack(
             [loss_func(ests[:, perm], targets) for perm in perms], dim=1
         )
+        # Ensure real-valued loss (fp16 may produce complex tensors)
+        if loss_set.is_complex():
+            loss_set = loss_set.real
         min_loss, min_loss_idx = torch.min(loss_set, dim=1)
         batch_indices = torch.stack([perms[m] for m in min_loss_idx], dim=0)
         return min_loss, batch_indices
@@ -123,6 +126,9 @@ class PITLossWrapper(nn.Module):
             pwl_set = pwl[:, torch.arange(n_src), idx.squeeze(-1)]
             # Apply reduce [batch, n_src!, n_src] --> [batch, n_src!]
             loss_set = perm_reduce(pwl_set, **kwargs)
+        # Ensure real-valued loss (fp16 may produce complex tensors)
+        if loss_set.is_complex():
+            loss_set = loss_set.real
         # Indexes and values of min losses for each batch element
         min_loss, min_loss_idx = torch.min(loss_set, dim=1)
 
