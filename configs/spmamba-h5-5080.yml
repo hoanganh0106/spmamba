@@ -1,0 +1,92 @@
+# SPMamba config for H5 dataset on RTX 5080 (16GB VRAM)
+# Dataset: 3 speakers + noise, 16kHz, from data_30h.h5
+# 
+# Usage:
+#   python audio_train.py --conf_dir configs/spmamba-h5-5080.yml
+#   python audio_train.py --conf_dir configs/spmamba-h5-5080.yml --resume
+#   python audio_train.py --conf_dir configs/spmamba-h5-5080.yml --checkpoint_dir /path/to/save
+
+# Network config (paper defaults)
+audionet:
+  audionet_name: SPMamba
+  audionet_config:
+    input_dim: 257        # n_fft//2+1 frequency bins
+    n_srcs: 3              # 3 speakers to separate
+    n_fft: 512             # paper: 512-point STFT
+    stride: 128            # paper: hop_length=128
+    window: hann
+    n_imics: 1             # single channel input
+    n_layers: 6            # paper: B=6 blocks
+    lstm_hidden_units: 128 # paper: H=128 (each direction)
+    attn_n_head: 4
+    attn_approx_qk_dim: 512
+    emb_dim: 16            # paper: C=16 embedding channels
+    emb_ks: 4              # paper: K=4 kernel size
+    emb_hs: 1              # paper: S=1 stride
+    activation: prelu
+    eps: 1.0e-5
+    use_builtin_complex: True
+
+# Loss config
+loss:
+  train:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_snr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+  val:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_sisdr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+
+# Training config optimized for RTX 5080 (16GB GDDR7)
+training:
+  system: AudioLightningModule
+  gpus: [0]
+  parallel: null
+  epochs: 200
+  accumulate_grad_batches: 2   # effective batch = 6*2 = 12
+  early_stop:
+    monitor: val_loss/dataloader_idx_0
+    mode: min
+    patience: 20
+    verbose: true
+  SpeedAug: False
+
+# Optimizer config
+optimizer:
+  optim_name: adam
+  lr: 0.001
+  weight_decay: 0.000001
+
+# Scheduler config
+scheduler: 
+  sche_name: ReduceLROnPlateau
+  sche_config:
+    patience: 10
+    factor: 0.5
+    min_lr: 0.000001
+
+# H5 Data config - RTX 5080 optimized
+datamodule:
+  data_name: H5DataModule
+  data_config:
+    h5_path: mixdata/storage/data_30h.h5
+    n_src: 3
+    sample_rate: 16000
+    segment: 3.0               # 3s segments (paper default)
+    normalize_audio: false
+    batch_size: 6              # RTX 5080 16GB: safe with fp16
+    num_workers: 4             # adjust based on CPU cores
+    pin_memory: true
+    persistent_workers: true   # keep workers alive between epochs
+    val_ratio: 0.1             # 10% validation
+    test_ratio: 0.05           # 5% test
+    seed: 42                   # deterministic split
+
+# Experiment config
+exp:
+  exp_name: SPMamba-H5-3Speakers-RTX5080

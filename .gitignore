@@ -1,0 +1,34 @@
+*.pyc
+*.DS_Store
+__pycache__/
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+*.o
+
+# Training outputs
+checkpoints/
+logs/
+lightning_logs/
+wandb/
+*.ckpt
+*.pth
+
+# Data files
+*.h5
+*.hdf5
+*.wav
+*.flac
+*.mp3
+data/
+mixdata/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+Desktop.ini

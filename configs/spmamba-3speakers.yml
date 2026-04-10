@@ -1,0 +1,97 @@
+# Network config for 3-speaker separation
+# Dataset: 3 speakers + noise, 16kHz, 3 seconds
+# Optimized for Google Colab T4 (16GB VRAM)
+#
+# Usage:
+#   python audio_train.py --conf_dir configs/spmamba-3speakers.yml
+#   python audio_train.py --conf_dir configs/spmamba-3speakers.yml --resume
+#
+# T4 Notes:
+#   - 16GB VRAM, FP16 supported (Turing architecture)
+#   - batch_size=4 + accumulate_grad_batches=4 → effective batch=16
+#   - segment=3.0s to fit in VRAM
+#   - num_workers=2 (Colab has 2 vCPUs)
+
+audionet:
+  audionet_name: SPMamba
+  audionet_config:
+    input_dim: 257        # n_fft//2+1 frequency bins
+    n_srcs: 3              # 3 speakers to separate
+    n_fft: 512             # paper: 512-point STFT
+    stride: 128            # paper: hop_length=128
+    window: hann
+    n_imics: 1             # single channel input
+    n_layers: 6            # paper: B=6 blocks
+    lstm_hidden_units: 128 # paper: H=128 (each direction)
+    attn_n_head: 4
+    attn_approx_qk_dim: 512
+    emb_dim: 16            # paper: C=16 embedding channels
+    emb_ks: 4              # paper: K=4 kernel size
+    emb_hs: 1              # paper: S=1 stride
+    activation: prelu
+    eps: 1.0e-5
+    use_builtin_complex: True
+
+# Loss config
+loss:
+  train:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_snr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+  val:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_sisdr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+
+# Training config optimized for Colab T4 (16GB VRAM)
+training:
+  system: AudioLightningModule
+  gpus: [0]                        # single GPU on Colab
+  parallel: null                   # no DDP for single GPU
+  epochs: 200
+  accumulate_grad_batches: 4       # effective batch = 4*4 = 16
+  early_stop:
+    monitor: val_loss/dataloader_idx_0
+    mode: min
+    patience: 20
+    verbose: true
+  SpeedAug: False
+
+# Optimizer config
+optimizer:
+  optim_name: adam
+  lr: 0.001
+  weight_decay: 0.000001
+
+# Scheduler config
+scheduler: 
+  sche_name: ReduceLROnPlateau
+  sche_config:
+    patience: 10
+    factor: 0.5
+    min_lr: 0.000001
+
+# Data config - UPDATE THESE PATHS
+datamodule:
+  data_name: ThreeSpeakerDataModule
+  data_config:
+    train_dir: /content/data/train    # Colab: folder chứa mix/ s1/ s2/ s3/
+    valid_dir: null                   # null = tự động split từ train
+    test_dir: null                    # null = tự động split từ train
+    n_src: 3
+    sample_rate: 16000
+    segment: 4.0                      # T4: 3s segments to fit 16GB VRAM
+    normalize_audio: false
+    batch_size: 4                     # T4 16GB: safe with fp16
+    num_workers: 2                    # Colab has 2 vCPUs
+    pin_memory: true
+    persistent_workers: false         # false for Colab stability
+    val_split: 0.2                    # 20% val + 20% test → 60% train
+
+# Experiment config
+exp:
+  exp_name: SPMamba-3Speakers-ColabT4
