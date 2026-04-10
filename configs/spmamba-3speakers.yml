@@ -8,8 +8,8 @@
 #
 # T4 Notes:
 #   - 16GB VRAM, FP16 supported (Turing architecture)
-#   - batch_size=4 + accumulate_grad_batches=4 → effective batch=16
-#   - segment=3.0s to fit in VRAM
+#   - batch_size=2 + accumulate_grad_batches=8 → effective batch=16
+#   - segment=4.0s (reduce batch_size instead of segment)
 #   - num_workers=2 (Colab has 2 vCPUs)
 
 audionet:
@@ -53,7 +53,7 @@ training:
   gpus: [0]                        # single GPU on Colab
   parallel: null                   # no DDP for single GPU
   epochs: 200
-  accumulate_grad_batches: 4       # effective batch = 4*4 = 16
+  accumulate_grad_batches: 8       # effective batch = 2*8 = 16
   early_stop:
     monitor: val_loss/dataloader_idx_0
     mode: min
@@ -82,9 +82,9 @@ datamodule:
     h5_path: /content/drive/MyDrive/data_30h.h5   # Google Drive path
     n_src: 3
     sample_rate: 16000
-    segment: 3.0                      # T4: 3s segments to fit 16GB VRAM
+    segment: 4.0                      # Kept at 4s to match dataset
     normalize_audio: false
-    batch_size: 4                     # T4 16GB: safe with fp16
+    batch_size: 2                     # Reduced batch size to 2 to fit in VRAM with 4s segment
     num_workers: 2                    # Colab has 2 vCPUs
     pin_memory: true
     persistent_workers: false         # false for Colab stability
