@@ -1,8 +1,8 @@
 # Network config for 3-speaker separation
-# Dataset: 3 speakers + noise, 16kHz, 3 seconds
+# Dataset: 3 speakers + noise, 16kHz, from data_30h.h5
 # Optimized for Google Colab T4 (16GB VRAM)
 #
-# Usage:
+# Usage (Colab):
 #   python audio_train.py --conf_dir configs/spmamba-3speakers.yml
 #   python audio_train.py --conf_dir configs/spmamba-3speakers.yml --resume
 #
@@ -75,22 +75,22 @@ scheduler:
     factor: 0.5
     min_lr: 0.000001
 
-# Data config - UPDATE THESE PATHS
+# H5 Data config - Colab T4 optimized
 datamodule:
-  data_name: ThreeSpeakerDataModule
+  data_name: H5DataModule
   data_config:
-    train_dir: /content/data/train    # Colab: folder chứa mix/ s1/ s2/ s3/
-    valid_dir: null                   # null = tự động split từ train
-    test_dir: null                    # null = tự động split từ train
+    h5_path: /content/drive/MyDrive/data_30h.h5   # Google Drive path
     n_src: 3
     sample_rate: 16000
-    segment: 4.0                      # T4: 3s segments to fit 16GB VRAM
+    segment: 3.0                      # T4: 3s segments to fit 16GB VRAM
     normalize_audio: false
     batch_size: 4                     # T4 16GB: safe with fp16
     num_workers: 2                    # Colab has 2 vCPUs
     pin_memory: true
     persistent_workers: false         # false for Colab stability
-    val_split: 0.2                    # 20% val + 20% test → 60% train
+    val_ratio: 0.1                    # 10% validation
+    test_ratio: 0.05                  # 5% test
+    seed: 42                          # deterministic split
 
 # Experiment config
 exp:
