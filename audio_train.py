@@ -152,8 +152,12 @@ def main(config):
         else:
             print_only("[Warning] --resume set but no last*.ckpt found. Starting fresh.")
 
-    # Bước 2: Xóa TẤT CẢ last*.ckpt cũ để Lightning tạo fresh last.ckpt (không bị -v1, -v2)
+    # Bước 2: Xóa last*.ckpt cũ để Lightning tạo fresh last.ckpt (không bị -v1, -v2)
+    # Nhưng GIỮ LẠI file đang dùng để resume (nếu có)
     for old_last in glob.glob(os.path.join(checkpoint_dir, "last*.ckpt")):
+        if ckpt_path and os.path.abspath(old_last) == os.path.abspath(ckpt_path):
+            print_only(f"[Cleanup] Skipped (resume target): {old_last}")
+            continue
         os.remove(old_last)
         print_only(f"[Cleanup] Removed {old_last}")
 
