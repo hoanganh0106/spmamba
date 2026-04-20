@@ -178,6 +178,7 @@ class H5DataModule:
         num_workers: int = 4,
         pin_memory: bool = True,
         persistent_workers: bool = False,
+        prefetch_factor: int = 4,
         seed: int = 42,
         sample_rate: int = 16000,
         n_src: int = 3,
@@ -193,6 +194,7 @@ class H5DataModule:
         self.num_workers = num_workers
         self.pin_memory = pin_memory
         self.persistent_workers = persistent_workers and (num_workers > 0)
+        self.prefetch_factor = prefetch_factor if num_workers > 0 else None
         self.seed = seed
         self.sample_rate = sample_rate
         self.n_src = n_src
@@ -253,6 +255,7 @@ class H5DataModule:
             num_workers=self.num_workers,
             pin_memory=self.pin_memory,
             persistent_workers=self.persistent_workers,
+            prefetch_factor=self.prefetch_factor,
             drop_last=True,
         )
 
@@ -264,6 +267,7 @@ class H5DataModule:
             num_workers=self.num_workers,
             pin_memory=self.pin_memory,
             persistent_workers=self.persistent_workers,
+            prefetch_factor=self.prefetch_factor,
             drop_last=False,
         )
 
