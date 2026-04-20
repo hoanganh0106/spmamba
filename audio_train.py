@@ -169,14 +169,14 @@ def main(config):
     )
     callbacks.append(checkpoint)
 
-    # Callback lưu last.ckpt mỗi 100 steps (~19 phút trên T4)
+    # Callback lưu last.ckpt mỗi 50 steps (~10 phút trên T4)
     # Đảm bảo không mất tiến trình khi Colab ngắt (4 giờ/phiên)
     step_checkpoint = ModelCheckpoint(
         dirpath=checkpoint_dir,
         filename="backup-{epoch}-{step}",
-        every_n_train_steps=100,
-        save_top_k=1,        # Giữ 1 backup mới nhất (không có monitor)
-        save_last=True,      # Cập nhật last.ckpt mỗi 100 steps
+        every_n_train_steps=50,
+        save_top_k=3,        # Giữ 3 backup (drive không giới hạn)
+        save_last=True,      # Cập nhật last.ckpt mỗi 50 steps
     )
     callbacks.append(step_checkpoint)
 
