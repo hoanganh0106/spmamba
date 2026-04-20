@@ -161,28 +161,42 @@ def main(config):
         os.remove(old_last)
         print_only(f"[Cleanup] Removed {old_last}")
 
-    # Callback lưu model xịn nhất cuối mỗi Epoch (không save_last ở đây)
-    checkpoint = ModelCheckpoint(
-        checkpoint_dir,
-        filename="{epoch}-best",
-        monitor="val_loss/dataloader_idx_0",
-        mode="min",
-        save_top_k=5,
-        verbose=True,
-        save_last=False,
-    )
-    callbacks.append(checkpoint)
+    # Checkpoint strategy: đọc từ config
+    save_every_n_steps = config["training"].get("save_every_n_steps", None)
 
-    # Callback lưu last.ckpt mỗi 50 steps (~10 phút trên T4)
-    # Đảm bảo không mất tiến trình khi Colab ngắt (4 giờ/phiên)
-    step_checkpoint = ModelCheckpoint(
-        dirpath=checkpoint_dir,
-        filename="backup-{epoch}-{step}",
-        every_n_train_steps=50,
-        save_top_k=3,        # Giữ 3 backup (drive không giới hạn)
-        save_last=True,      # Cập nhật last.ckpt mỗi 50 steps
-    )
-    callbacks.append(step_checkpoint)
+    if save_every_n_steps:
+        # T4/GPU yếu: lưu best mỗi epoch + backup mỗi N steps (chống mất khi Colab ngắt)
+        checkpoint = ModelCheckpoint(
+            checkpoint_dir,
+            filename="{epoch}-best",
+            monitor="val_loss/dataloader_idx_0",
+            mode="min",
+            save_top_k=5,
+            verbose=True,
+            save_last=False,
+        )
+        callbacks.append(checkpoint)
+
+        step_checkpoint = ModelCheckpoint(
+            dirpath=checkpoint_dir,
+            filename="backup-{epoch}-{step}",
+            every_n_train_steps=save_every_n_steps,
+            save_top_k=3,
+            save_last=True,
+        )
+        callbacks.append(step_checkpoint)
+    else:
+        # H100/GPU mạnh: chỉ lưu best + last.ckpt mỗi epoch
+        checkpoint = ModelCheckpoint(
+            checkpoint_dir,
+            filename="{epoch}-best",
+            monitor="val_loss/dataloader_idx_0",
+            mode="min",
+            save_top_k=5,
+            verbose=True,
+            save_last=True,       # last.ckpt cập nhật mỗi epoch
+        )
+        callbacks.append(checkpoint)
 
     if config["training"]["early_stop"]:
         print_only("Instantiating EarlyStopping")
@@ -198,7 +212,7 @@ def main(config):
     # No external logger
 
     trainer = pl.Trainer(
-        precision="16-mixed",
+        precision=config["training"].get("precision", "16-mixed"),
         max_epochs=config["training"]["epochs"],
         callbacks=callbacks,
         default_root_dir=exp_dir,

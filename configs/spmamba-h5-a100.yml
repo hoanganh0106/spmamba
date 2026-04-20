@@ -1,17 +1,20 @@
-# Network config for 3-speaker separation
+# SPMamba config for H5 dataset on NVIDIA A100 (40GB VRAM)
 # Dataset: 3 speakers + noise, 16kHz, from data_30h.h5
-# Optimized for Google Colab T4 (16GB VRAM)
+# Optimized for Google Colab A100 runtime
 #
 # Usage (Colab):
-#   python audio_train.py --conf_dir configs/spmamba-3speakers.yml
-#   python audio_train.py --conf_dir configs/spmamba-3speakers.yml --resume
+#   python audio_train.py --conf_dir configs/spmamba-h5-a100.yml
+#   python audio_train.py --conf_dir configs/spmamba-h5-a100.yml --resume
 #
-# T4 Notes:
-#   - 16GB VRAM, FP16 supported (Turing architecture)
-#   - batch_size=4 + accumulate_grad_batches=4 → effective batch=16
-#   - segment=4.0s (giữ nguyên theo dataset)
-#   - num_workers=2 (Colab has 2 vCPUs)
+# A100 Notes:
+#   - 40GB HBM2e VRAM (Colab), Ampere architecture
+#   - BF16/FP16/TF32 supported natively
+#   - batch_size=24 + accumulate_grad_batches=1 → effective batch=24
+#   - segment=4.0s để giữ nguyên theo dataset
+#   - num_workers=4 (Colab A100 runtime thường có 4+ vCPUs)
+#   - VRAM dư nhiều so với T4 → batch lớn hơn, throughput cao
 
+# Network config (paper defaults)
 audionet:
   audionet_name: SPMamba
   audionet_config:
@@ -47,14 +50,14 @@ loss:
       pit_from: pw_mtx
       threshold_byloss: false
 
-# Training config optimized for Colab T4 (16GB VRAM)
+# Training config optimized for A100 (40GB HBM2e)
 training:
   system: AudioLightningModule
   gpus: [0]                        # single GPU on Colab
   parallel: null                   # no DDP for single GPU
   epochs: 200
-  accumulate_grad_batches: 4       # effective batch = 4*4 = 16
-  save_every_n_steps: 50           # T4: backup mỗi 50 steps chống Colab ngắt
+  precision: bf16-mixed            # A100 Ampere: BF16 nhanh, không cần loss scaling
+  accumulate_grad_batches: 1       # A100 VRAM đủ lớn, không cần accumulate
   early_stop:
     monitor: val_loss/dataloader_idx_0
     mode: min
@@ -76,23 +79,34 @@ scheduler:
     factor: 0.5
     min_lr: 0.000001
 
-# H5 Data config - Colab T4 optimized
+# H5 Data config - A100 optimized
 datamodule:
   data_name: H5DataModule
   data_config:
-    h5_path: /content/data.h5                     # Local Colab path
+    h5_path: /content/data.h5
     n_src: 3
     sample_rate: 16000
-    segment: 4.0                      # Kept at 4s to match dataset
+    segment: 4.0
+    batch_size: 24
+    num_workers: 4
+
+# H5 Data config - A100 Colab optimized
+datamodule:
+  data_name: H5DataModule
+  data_config:
+    h5_path: /content/data.h5         # Local Colab path (copy từ Drive)
+    n_src: 3
+    sample_rate: 16000
+    segment: 4.0                      # 4s segments
     normalize_audio: false
-    batch_size: 4                     # T4 dùng 7.5/16GB → tăng lên 4 cho nhanh
-    num_workers: 2                    # Colab has 2 vCPUs
+    batch_size: 24                    # A100 40GB: thoải mái, ~12-15GB VRAM usage
+    num_workers: 4                    # Colab A100 runtime có ~4 vCPUs
     pin_memory: true
-    persistent_workers: false         # false for Colab stability
+    persistent_workers: true          # keep workers alive, A100 runtime ổn định
     val_ratio: 0.1                    # 10% validation
     test_ratio: 0.05                  # 5% test
     seed: 42                          # deterministic split
 
 # Experiment config
 exp:
-  exp_name: SPMamba-3Speakers-ColabT4
+  exp_name: SPMamba-H5-3Speakers-A100
