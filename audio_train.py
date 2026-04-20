@@ -152,6 +152,12 @@ def main(config):
     )
     callbacks.append(checkpoint)
 
+    # Xóa last-v*.ckpt cũ để tránh Lightning tạo version mới
+    import glob
+    for old_last in glob.glob(os.path.join(checkpoint_dir, "last-v*.ckpt")):
+        os.remove(old_last)
+        print_only(f"[Cleanup] Removed {old_last}")
+
     # Callback lưu last.ckpt mỗi 100 steps (~19 phút trên T4)
     # Đảm bảo không mất tiến trình khi Colab ngắt (4 giờ/phiên)
     step_checkpoint = ModelCheckpoint(
@@ -160,7 +166,6 @@ def main(config):
         every_n_train_steps=100,
         save_top_k=3,        # Giữ 3 backup gần nhất (tránh đầy ổ)
         save_last=True,      # Cập nhật last.ckpt mỗi 100 steps
-        enable_version_counter=False,  # Ghi đè, không tạo -v1, -v2
     )
     callbacks.append(step_checkpoint)
 
