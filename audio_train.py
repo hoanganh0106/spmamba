@@ -164,7 +164,7 @@ def main(config):
         dirpath=checkpoint_dir,
         filename="backup-{epoch}-{step}",
         every_n_train_steps=100,
-        save_top_k=3,        # Giữ 3 backup gần nhất (tránh đầy ổ)
+        save_top_k=1,        # Giữ 1 backup mới nhất (không có monitor)
         save_last=True,      # Cập nhật last.ckpt mỗi 100 steps
     )
     callbacks.append(step_checkpoint)
