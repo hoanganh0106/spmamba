@@ -178,7 +178,7 @@ class H5DataModule:
         num_workers: int = 4,
         pin_memory: bool = True,
         persistent_workers: bool = False,
-        prefetch_factor: int = 4,
+        prefetch_factor: int = 2,
         seed: int = 42,
         sample_rate: int = 16000,
         n_src: int = 3,
