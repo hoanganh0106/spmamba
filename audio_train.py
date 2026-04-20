@@ -31,6 +31,7 @@ from look2hear.utils import print_only
 import warnings
 
 warnings.filterwarnings("ignore")
+torch.set_float32_matmul_precision("medium")  # tận dụng Tensor Core trên A100
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
