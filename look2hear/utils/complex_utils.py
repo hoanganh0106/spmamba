@@ -18,7 +18,10 @@ def new_complex_like(
     if isinstance(ref, ComplexTensor):
         return ComplexTensor(*real_imag)
     elif is_torch_complex_tensor(ref):
-        return torch.complex(*real_imag)
+        real, imag = real_imag
+        if real.dtype == torch.bfloat16:
+            return torch.complex(real.float(), imag.float()).to(torch.cfloat)
+        return torch.complex(real, imag)
     else:
         raise ValueError(
             "Please update your PyTorch version to 1.9+ for complex support."
