@@ -89,7 +89,7 @@ datamodule:
     segment: 4.0                      # 4s segments
     normalize_audio: false
     batch_size: 8                     # ~29GB VRAM
-    num_workers: 8                    # tăng worker để GPU không phải chờ data
+    num_workers: 4                    # HDF5 random I/O: 4 workers là optimal, 8+ gây contention
     pin_memory: true
     persistent_workers: true          # keep workers alive, tránh respawn overhead
     val_ratio: 0.1
