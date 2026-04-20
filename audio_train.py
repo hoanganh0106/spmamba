@@ -140,6 +140,23 @@ def main(config):
     print_only("Instantiating ModelCheckpoint")
     callbacks = []
     checkpoint_dir = os.path.join(exp_dir)
+
+    # Bước 1: Tìm resume checkpoint TRƯỚC khi cleanup
+    import glob
+    ckpt_path = None
+    if config["main_args"].get("resume"):
+        last_ckpts = glob.glob(os.path.join(exp_dir, "last*.ckpt"))
+        if last_ckpts:
+            ckpt_path = max(last_ckpts, key=os.path.getmtime)
+            print_only(f"Resuming from checkpoint: {ckpt_path}")
+        else:
+            print_only("[Warning] --resume set but no last*.ckpt found. Starting fresh.")
+
+    # Bước 2: Xóa TẤT CẢ last*.ckpt cũ để Lightning tạo fresh last.ckpt (không bị -v1, -v2)
+    for old_last in glob.glob(os.path.join(checkpoint_dir, "last*.ckpt")):
+        os.remove(old_last)
+        print_only(f"[Cleanup] Removed {old_last}")
+
     # Callback lưu model xịn nhất cuối mỗi Epoch (không save_last ở đây)
     checkpoint = ModelCheckpoint(
         checkpoint_dir,
@@ -151,12 +168,6 @@ def main(config):
         save_last=False,
     )
     callbacks.append(checkpoint)
-
-    # Xóa last-v*.ckpt cũ để tránh Lightning tạo version mới
-    import glob
-    for old_last in glob.glob(os.path.join(checkpoint_dir, "last-v*.ckpt")):
-        os.remove(old_last)
-        print_only(f"[Cleanup] Removed {old_last}")
 
     # Callback lưu last.ckpt mỗi 100 steps (~19 phút trên T4)
     # Đảm bảo không mất tiến trình khi Colab ngắt (4 giờ/phiên)
@@ -199,18 +210,6 @@ def main(config):
         # sync_batchnorm=True,
         # fast_dev_run=True,
     )
-    # Resume from last checkpoint if requested
-    ckpt_path = None
-    if config["main_args"].get("resume"):
-        # Tìm file last*.ckpt mới nhất (tránh dùng nhầm last.ckpt cũ khi có last-v1, last-v2...)
-        import glob
-        last_ckpts = glob.glob(os.path.join(exp_dir, "last*.ckpt"))
-        if last_ckpts:
-            ckpt_path = max(last_ckpts, key=os.path.getmtime)
-            print_only(f"Resuming from checkpoint: {ckpt_path}")
-        else:
-            print_only("[Warning] --resume set but no last*.ckpt found. Starting fresh.")
-
     # [NEW] Print essential config before training
     print_only("\n" + "="*40)
     print_only("=== TRAINING CONFIGURATION ===")
