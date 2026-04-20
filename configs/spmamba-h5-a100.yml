@@ -9,7 +9,7 @@
 # A100 Notes:
 #   - 40GB HBM2e VRAM (Colab), Ampere architecture
 #   - BF16/FP16/TF32 supported natively
-#   - batch_size=6 + accumulate_grad_batches=4 → effective batch=24
+#   - batch_size=8 + accumulate_grad_batches=3 → effective batch=24
 #   - segment=4.0s để giữ nguyên theo dataset
 #   - num_workers=4 (Colab A100 runtime thường có 4+ vCPUs)
 #   - VRAM dư nhiều so với T4 → batch lớn hơn, throughput cao
@@ -57,7 +57,7 @@ training:
   parallel: null                   # no DDP for single GPU
   epochs: 200
   precision: bf16-mixed            # A100 Ampere: BF16 nhanh, không cần loss scaling
-  accumulate_grad_batches: 4       # batch=6 x accum=4 → effective batch=24, giảm peak VRAM
+  accumulate_grad_batches: 3       # batch=8 x accum=3 → effective batch=24
   early_stop:
     monitor: val_loss/dataloader_idx_0
     mode: min
@@ -87,7 +87,7 @@ datamodule:
     n_src: 3
     sample_rate: 16000
     segment: 4.0
-    batch_size: 6
+    batch_size: 8
     num_workers: 8
 
 # H5 Data config - A100 Colab optimized
@@ -99,7 +99,7 @@ datamodule:
     sample_rate: 16000
     segment: 4.0                      # 4s segments
     normalize_audio: false
-    batch_size: 6                     # giảm để tránh OOM trong Mamba backward
+    batch_size: 8                     # ~29GB VRAM, tăng throughput so với batch=6
     num_workers: 4                    # Colab A100 runtime có ~4 vCPUs
     pin_memory: true
     persistent_workers: true          # keep workers alive, A100 runtime ổn định
