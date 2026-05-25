@@ -57,7 +57,7 @@ training:
   parallel: null                   # no DDP for single GPU
   epochs: 200
   precision: bf16-mixed            # A100 Ampere: BF16 nhanh, không cần loss scaling
-  accumulate_grad_batches: 1       # Chạy thẳng batch=16, không cần accumulate
+  accumulate_grad_batches: 1       # Chạy thẳng batch=20, không cần accumulate
   early_stop:
     monitor: val_loss/dataloader_idx_0
     mode: min
@@ -88,7 +88,7 @@ datamodule:
     sample_rate: 16000
     segment: 4.0                      # 4s segments
     normalize_audio: false
-    batch_size: 16                    # Đã hạ xuống 16 để tránh OOM trên A100 (~55GB VRAM)
+    batch_size: 20                    # Đã tối ưu lên 20 để tận dụng 68GB VRAM (chừa 12GB dự phòng an toàn)
     num_workers: 8                    # tăng worker để GPU không phải chờ data
     pin_memory: true
     persistent_workers: true          # keep workers alive, tránh respawn overhead
