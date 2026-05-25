@@ -13,7 +13,25 @@ import look2hear.models
 
 def load_model(ckpt_path, device="cuda"):
     ckpt = torch.load(ckpt_path, map_location=device)
-    config = ckpt.get("training_config") or ckpt["hyper_parameters"]
+    config = ckpt.get("training_config") or ckpt.get("hyper_parameters")
+    
+    # Nếu config bị làm phẳng (flattened - ví dụ từ Lightning save_hyperparameters mặc định),
+    # tái cấu trúc lại dictionary lồng nhau (nested dict) để tránh KeyError.
+    if config and not isinstance(config.get("audionet"), dict):
+        reconstructed = {}
+        for k, v in config.items():
+            if isinstance(v, torch.Tensor):
+                v = v.tolist()
+            if k == "audionet_audionet_name":
+                reconstructed.setdefault("audionet", {})["audionet_name"] = v
+            elif k.startswith("audionet_audionet_config_"):
+                sub_key = k[len("audionet_audionet_config_"):]
+                reconstructed.setdefault("audionet", {}).setdefault("audionet_config", {})[sub_key] = v
+            elif k.startswith("datamodule_data_config_"):
+                sub_key = k[len("datamodule_data_config_"):]
+                reconstructed.setdefault("datamodule", {}).setdefault("data_config", {})[sub_key] = v
+        config = reconstructed
+
     audionet_name = config["audionet"]["audionet_name"]
     audionet_config = config["audionet"]["audionet_config"]
     sample_rate = config["datamodule"]["data_config"]["sample_rate"]
@@ -29,6 +47,7 @@ def load_model(ckpt_path, device="cuda"):
     model.to(device).eval()
     print(f"Loaded {audionet_name} from {ckpt_path}")
     return model, sample_rate
+
 
 
 def read_mono(path):

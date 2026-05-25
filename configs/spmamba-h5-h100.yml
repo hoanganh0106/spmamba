@@ -78,16 +78,6 @@ scheduler:
     factor: 0.5
     min_lr: 0.000001
 
-# H5 Data config - H100 optimized
-datamodule:
-  data_name: H5DataModule
-  data_config:
-    h5_path: /content/data.h5
-    n_src: 3
-    sample_rate: 16000
-    segment: 4.0
-    batch_size: 32
-    num_workers: 4
 
 # H5 Data config - H100 Colab optimized
 datamodule:

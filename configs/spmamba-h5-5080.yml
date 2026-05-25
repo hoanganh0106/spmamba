@@ -48,6 +48,7 @@ training:
   gpus: [0]
   parallel: null
   epochs: 200
+  precision: bf16-mixed            # RTX 5080 Blackwell: BF16 nhanh và ổn định hơn FP16
   accumulate_grad_batches: 2   # effective batch = 6*2 = 12
   early_stop:
     monitor: val_loss/dataloader_idx_0

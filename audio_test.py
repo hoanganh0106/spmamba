@@ -39,10 +39,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--conf_dir",
                     default="local/mixit_conf.yml",
                     help="Full path to save best validation model")
+parser.add_argument("--checkpoint_dir",
+                    default=None,
+                    help="Directory where best_model.pth is saved")
 
 
 compute_metrics = ["si_sdr", "sdr"]
-os.environ['CUDA_VISIBLE_DEVICES'] = "1"
 
 def main(config):
     metricscolumn = MyMetricsTextColumn(style=RichProgressBarTheme.metrics)
@@ -58,11 +60,15 @@ def main(config):
         "•",
         metricscolumn
     )
-    # import pdb; pdb.set_trace()
-    config["train_conf"]["main_args"]["exp_dir"] = os.path.join(
-        os.getcwd(), "Experiments", "checkpoint", config["train_conf"]["exp"]["exp_name"]
-    )
-    model_path = os.path.join(config["train_conf"]["main_args"]["exp_dir"], "best_model.pth")
+    # Use checkpoint_dir if provided, otherwise default to Experiments/checkpoint/...
+    if config.get("checkpoint_dir"):
+        exp_dir = config["checkpoint_dir"]
+    else:
+        exp_dir = os.path.join(
+            os.getcwd(), "Experiments", "checkpoint", config["train_conf"]["exp"]["exp_name"]
+        )
+    config["train_conf"]["main_args"]["exp_dir"] = exp_dir
+    model_path = os.path.join(exp_dir, "best_model.pth")
     # import pdb; pdb.set_trace()
     # conf["train_conf"]["masknet"].update({"n_src": 2})
     model =  getattr(look2hear.models, config["train_conf"]["audionet"]["audionet_name"]).from_pretrain(
