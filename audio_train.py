@@ -49,7 +49,12 @@ parser.add_argument(
 parser.add_argument(
     "--resume",
     action="store_true",
-    help="Resume training from last.ckpt in checkpoint_dir",
+    help="Resume training from last*.ckpt in checkpoint_dir, falling back to the newest .ckpt",
+)
+parser.add_argument(
+    "--resume_ckpt",
+    default=None,
+    help="Explicit checkpoint path to resume from",
 )
 
 def main(config):
@@ -147,13 +152,25 @@ def main(config):
     # Bước 1: Tìm resume checkpoint TRƯỚC khi cleanup
     import glob
     ckpt_path = None
-    if config["main_args"].get("resume"):
+    resume_ckpt = config["main_args"].get("resume_ckpt")
+    if resume_ckpt:
+        if os.path.isfile(resume_ckpt):
+            ckpt_path = resume_ckpt
+            print_only(f"Resuming from explicit checkpoint: {ckpt_path}")
+        else:
+            print_only(f"[Warning] --resume_ckpt not found: {resume_ckpt}")
+    if ckpt_path is None and config["main_args"].get("resume"):
         last_ckpts = glob.glob(os.path.join(exp_dir, "last*.ckpt"))
         if last_ckpts:
             ckpt_path = max(last_ckpts, key=os.path.getmtime)
-            print_only(f"Resuming from checkpoint: {ckpt_path}")
+            print_only(f"Resuming from last checkpoint: {ckpt_path}")
         else:
-            print_only("[Warning] --resume set but no last*.ckpt found. Starting fresh.")
+            all_ckpts = glob.glob(os.path.join(exp_dir, "*.ckpt"))
+            if all_ckpts:
+                ckpt_path = max(all_ckpts, key=os.path.getmtime)
+                print_only(f"[Warning] no last*.ckpt found. Resuming from newest checkpoint: {ckpt_path}")
+            else:
+                print_only("[Warning] --resume set but no checkpoints found. Starting fresh.")
 
     # Bước 2: Xóa last*.ckpt cũ để Lightning tạo fresh last.ckpt (không bị -v1, -v2)
     # Nhưng GIỮ LẠI file đang dùng để resume (nếu có)
@@ -182,9 +199,8 @@ def main(config):
 
         step_checkpoint = ModelCheckpoint(
             dirpath=checkpoint_dir,
-            filename="backup-{epoch}-{step}",
             every_n_train_steps=save_every_n_steps,
-            save_top_k=3,
+            save_top_k=0,
             save_last=True,
         )
         callbacks.append(step_checkpoint)
@@ -277,5 +293,7 @@ if __name__ == "__main__":
         arg_dic["main_args"]["checkpoint_dir"] = args.checkpoint_dir
     if args.resume:
         arg_dic["main_args"]["resume"] = True
+    if args.resume_ckpt:
+        arg_dic["main_args"]["resume_ckpt"] = args.resume_ckpt
 
     main(arg_dic)

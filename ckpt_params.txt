@@ -1,0 +1,711 @@
+name	shape	#elements
+audio_model.conv.0.weight	(16, 2, 3, 3)	288
+audio_model.conv.0.bias	(16,)	16
+audio_model.conv.1.weight	(16,)	16
+audio_model.conv.1.bias	(16,)	16
+audio_model.blocks.0.intra_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.0.intra_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.0.intra_proj.weight	(128, 64)	8192
+audio_model.blocks.0.intra_proj.bias	(128,)	128
+audio_model.blocks.0.intra_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.0.intra_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.0.intra_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.0.intra_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.0.intra_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.0.intra_linear.bias	(16,)	16
+audio_model.blocks.0.inter_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.0.inter_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.0.inter_proj.weight	(128, 64)	8192
+audio_model.blocks.0.inter_proj.bias	(128,)	128
+audio_model.blocks.0.inter_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.0.inter_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.0.inter_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.0.inter_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.0.inter_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.0.inter_linear.bias	(16,)	16
+audio_model.blocks.0.attn_conv_Q_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_Q_0.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_Q_0.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_Q_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_Q_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_K_0.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_K_0.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_K_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_V_0.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.0.attn_conv_V_0.0.bias	(4,)	4
+audio_model.blocks.0.attn_conv_V_0.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_V_0.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_conv_V_0.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_conv_Q_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_Q_1.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_Q_1.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_Q_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_Q_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_K_1.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_K_1.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_K_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_V_1.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.0.attn_conv_V_1.0.bias	(4,)	4
+audio_model.blocks.0.attn_conv_V_1.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_V_1.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_conv_V_1.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_conv_Q_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_Q_2.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_Q_2.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_Q_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_Q_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_K_2.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_K_2.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_K_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_V_2.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.0.attn_conv_V_2.0.bias	(4,)	4
+audio_model.blocks.0.attn_conv_V_2.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_V_2.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_conv_V_2.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_conv_Q_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_Q_3.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_Q_3.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_Q_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_Q_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.0.attn_conv_K_3.0.bias	(2,)	2
+audio_model.blocks.0.attn_conv_K_3.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_K_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_K_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.0.attn_conv_V_3.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.0.attn_conv_V_3.0.bias	(4,)	4
+audio_model.blocks.0.attn_conv_V_3.1.weight	(1,)	1
+audio_model.blocks.0.attn_conv_V_3.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_conv_V_3.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.0.attn_concat_proj.0.weight	(16, 16, 1, 1)	256
+audio_model.blocks.0.attn_concat_proj.0.bias	(16,)	16
+audio_model.blocks.0.attn_concat_proj.1.weight	(1,)	1
+audio_model.blocks.0.attn_concat_proj.2.gamma	(1, 16, 1, 257)	4112
+audio_model.blocks.0.attn_concat_proj.2.beta	(1, 16, 1, 257)	4112
+audio_model.blocks.1.intra_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.1.intra_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.1.intra_proj.weight	(128, 64)	8192
+audio_model.blocks.1.intra_proj.bias	(128,)	128
+audio_model.blocks.1.intra_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.1.intra_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.1.intra_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.1.intra_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.1.intra_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.1.intra_linear.bias	(16,)	16
+audio_model.blocks.1.inter_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.1.inter_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.1.inter_proj.weight	(128, 64)	8192
+audio_model.blocks.1.inter_proj.bias	(128,)	128
+audio_model.blocks.1.inter_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.1.inter_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.1.inter_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.1.inter_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.1.inter_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.1.inter_linear.bias	(16,)	16
+audio_model.blocks.1.attn_conv_Q_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_Q_0.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_Q_0.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_Q_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_Q_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_K_0.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_K_0.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_K_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_V_0.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.1.attn_conv_V_0.0.bias	(4,)	4
+audio_model.blocks.1.attn_conv_V_0.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_V_0.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_conv_V_0.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_conv_Q_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_Q_1.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_Q_1.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_Q_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_Q_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_K_1.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_K_1.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_K_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_V_1.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.1.attn_conv_V_1.0.bias	(4,)	4
+audio_model.blocks.1.attn_conv_V_1.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_V_1.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_conv_V_1.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_conv_Q_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_Q_2.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_Q_2.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_Q_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_Q_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_K_2.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_K_2.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_K_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_V_2.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.1.attn_conv_V_2.0.bias	(4,)	4
+audio_model.blocks.1.attn_conv_V_2.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_V_2.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_conv_V_2.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_conv_Q_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_Q_3.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_Q_3.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_Q_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_Q_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.1.attn_conv_K_3.0.bias	(2,)	2
+audio_model.blocks.1.attn_conv_K_3.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_K_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_K_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.1.attn_conv_V_3.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.1.attn_conv_V_3.0.bias	(4,)	4
+audio_model.blocks.1.attn_conv_V_3.1.weight	(1,)	1
+audio_model.blocks.1.attn_conv_V_3.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_conv_V_3.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.1.attn_concat_proj.0.weight	(16, 16, 1, 1)	256
+audio_model.blocks.1.attn_concat_proj.0.bias	(16,)	16
+audio_model.blocks.1.attn_concat_proj.1.weight	(1,)	1
+audio_model.blocks.1.attn_concat_proj.2.gamma	(1, 16, 1, 257)	4112
+audio_model.blocks.1.attn_concat_proj.2.beta	(1, 16, 1, 257)	4112
+audio_model.blocks.2.intra_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.2.intra_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.2.intra_proj.weight	(128, 64)	8192
+audio_model.blocks.2.intra_proj.bias	(128,)	128
+audio_model.blocks.2.intra_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.2.intra_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.2.intra_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.2.intra_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.2.intra_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.2.intra_linear.bias	(16,)	16
+audio_model.blocks.2.inter_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.2.inter_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.2.inter_proj.weight	(128, 64)	8192
+audio_model.blocks.2.inter_proj.bias	(128,)	128
+audio_model.blocks.2.inter_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.2.inter_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.2.inter_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.2.inter_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.2.inter_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.2.inter_linear.bias	(16,)	16
+audio_model.blocks.2.attn_conv_Q_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_Q_0.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_Q_0.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_Q_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_Q_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_K_0.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_K_0.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_K_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_V_0.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.2.attn_conv_V_0.0.bias	(4,)	4
+audio_model.blocks.2.attn_conv_V_0.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_V_0.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_conv_V_0.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_conv_Q_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_Q_1.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_Q_1.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_Q_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_Q_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_K_1.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_K_1.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_K_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_V_1.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.2.attn_conv_V_1.0.bias	(4,)	4
+audio_model.blocks.2.attn_conv_V_1.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_V_1.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_conv_V_1.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_conv_Q_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_Q_2.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_Q_2.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_Q_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_Q_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_K_2.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_K_2.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_K_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_V_2.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.2.attn_conv_V_2.0.bias	(4,)	4
+audio_model.blocks.2.attn_conv_V_2.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_V_2.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_conv_V_2.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_conv_Q_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_Q_3.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_Q_3.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_Q_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_Q_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.2.attn_conv_K_3.0.bias	(2,)	2
+audio_model.blocks.2.attn_conv_K_3.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_K_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_K_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.2.attn_conv_V_3.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.2.attn_conv_V_3.0.bias	(4,)	4
+audio_model.blocks.2.attn_conv_V_3.1.weight	(1,)	1
+audio_model.blocks.2.attn_conv_V_3.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_conv_V_3.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.2.attn_concat_proj.0.weight	(16, 16, 1, 1)	256
+audio_model.blocks.2.attn_concat_proj.0.bias	(16,)	16
+audio_model.blocks.2.attn_concat_proj.1.weight	(1,)	1
+audio_model.blocks.2.attn_concat_proj.2.gamma	(1, 16, 1, 257)	4112
+audio_model.blocks.2.attn_concat_proj.2.beta	(1, 16, 1, 257)	4112
+audio_model.blocks.3.intra_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.3.intra_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.3.intra_proj.weight	(128, 64)	8192
+audio_model.blocks.3.intra_proj.bias	(128,)	128
+audio_model.blocks.3.intra_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.3.intra_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.3.intra_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.3.intra_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.3.intra_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.3.intra_linear.bias	(16,)	16
+audio_model.blocks.3.inter_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.3.inter_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.3.inter_proj.weight	(128, 64)	8192
+audio_model.blocks.3.inter_proj.bias	(128,)	128
+audio_model.blocks.3.inter_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.3.inter_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.3.inter_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.3.inter_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.3.inter_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.3.inter_linear.bias	(16,)	16
+audio_model.blocks.3.attn_conv_Q_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_Q_0.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_Q_0.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_Q_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_Q_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_K_0.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_K_0.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_K_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_V_0.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.3.attn_conv_V_0.0.bias	(4,)	4
+audio_model.blocks.3.attn_conv_V_0.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_V_0.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_conv_V_0.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_conv_Q_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_Q_1.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_Q_1.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_Q_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_Q_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_K_1.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_K_1.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_K_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_V_1.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.3.attn_conv_V_1.0.bias	(4,)	4
+audio_model.blocks.3.attn_conv_V_1.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_V_1.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_conv_V_1.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_conv_Q_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_Q_2.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_Q_2.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_Q_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_Q_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_K_2.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_K_2.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_K_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_V_2.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.3.attn_conv_V_2.0.bias	(4,)	4
+audio_model.blocks.3.attn_conv_V_2.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_V_2.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_conv_V_2.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_conv_Q_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_Q_3.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_Q_3.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_Q_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_Q_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.3.attn_conv_K_3.0.bias	(2,)	2
+audio_model.blocks.3.attn_conv_K_3.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_K_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_K_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.3.attn_conv_V_3.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.3.attn_conv_V_3.0.bias	(4,)	4
+audio_model.blocks.3.attn_conv_V_3.1.weight	(1,)	1
+audio_model.blocks.3.attn_conv_V_3.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_conv_V_3.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.3.attn_concat_proj.0.weight	(16, 16, 1, 1)	256
+audio_model.blocks.3.attn_concat_proj.0.bias	(16,)	16
+audio_model.blocks.3.attn_concat_proj.1.weight	(1,)	1
+audio_model.blocks.3.attn_concat_proj.2.gamma	(1, 16, 1, 257)	4112
+audio_model.blocks.3.attn_concat_proj.2.beta	(1, 16, 1, 257)	4112
+audio_model.blocks.4.intra_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.4.intra_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.4.intra_proj.weight	(128, 64)	8192
+audio_model.blocks.4.intra_proj.bias	(128,)	128
+audio_model.blocks.4.intra_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.4.intra_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.4.intra_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.4.intra_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.4.intra_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.4.intra_linear.bias	(16,)	16
+audio_model.blocks.4.inter_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.4.inter_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.4.inter_proj.weight	(128, 64)	8192
+audio_model.blocks.4.inter_proj.bias	(128,)	128
+audio_model.blocks.4.inter_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.4.inter_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.4.inter_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.4.inter_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.4.inter_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.4.inter_linear.bias	(16,)	16
+audio_model.blocks.4.attn_conv_Q_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_Q_0.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_Q_0.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_Q_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_Q_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_K_0.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_K_0.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_K_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_V_0.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.4.attn_conv_V_0.0.bias	(4,)	4
+audio_model.blocks.4.attn_conv_V_0.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_V_0.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_conv_V_0.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_conv_Q_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_Q_1.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_Q_1.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_Q_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_Q_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_K_1.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_K_1.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_K_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_V_1.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.4.attn_conv_V_1.0.bias	(4,)	4
+audio_model.blocks.4.attn_conv_V_1.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_V_1.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_conv_V_1.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_conv_Q_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_Q_2.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_Q_2.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_Q_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_Q_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_K_2.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_K_2.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_K_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_V_2.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.4.attn_conv_V_2.0.bias	(4,)	4
+audio_model.blocks.4.attn_conv_V_2.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_V_2.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_conv_V_2.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_conv_Q_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_Q_3.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_Q_3.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_Q_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_Q_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.4.attn_conv_K_3.0.bias	(2,)	2
+audio_model.blocks.4.attn_conv_K_3.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_K_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_K_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.4.attn_conv_V_3.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.4.attn_conv_V_3.0.bias	(4,)	4
+audio_model.blocks.4.attn_conv_V_3.1.weight	(1,)	1
+audio_model.blocks.4.attn_conv_V_3.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_conv_V_3.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.4.attn_concat_proj.0.weight	(16, 16, 1, 1)	256
+audio_model.blocks.4.attn_concat_proj.0.bias	(16,)	16
+audio_model.blocks.4.attn_concat_proj.1.weight	(1,)	1
+audio_model.blocks.4.attn_concat_proj.2.gamma	(1, 16, 1, 257)	4112
+audio_model.blocks.4.attn_concat_proj.2.beta	(1, 16, 1, 257)	4112
+audio_model.blocks.5.intra_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.5.intra_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.5.intra_proj.weight	(128, 64)	8192
+audio_model.blocks.5.intra_proj.bias	(128,)	128
+audio_model.blocks.5.intra_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.5.intra_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.5.intra_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.5.intra_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.5.intra_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.5.intra_linear.bias	(16,)	16
+audio_model.blocks.5.inter_norm.gamma	(1, 16, 1, 1)	16
+audio_model.blocks.5.inter_norm.beta	(1, 16, 1, 1)	16
+audio_model.blocks.5.inter_proj.weight	(128, 64)	8192
+audio_model.blocks.5.inter_proj.bias	(128,)	128
+audio_model.blocks.5.inter_mamba.forward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.5.inter_mamba.forward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.5.inter_mamba.backward_blocks.0.norm.weight	(128,)	128
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.A_log	(512, 16)	8192
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.D	(512,)	512
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.in_proj.weight	(1024, 128)	131072
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.conv1d.weight	(512, 1, 4)	2048
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.conv1d.bias	(512,)	512
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.x_proj.weight	(40, 512)	20480
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.dt_proj.weight	(512, 8)	4096
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.dt_proj.bias	(512,)	512
+audio_model.blocks.5.inter_mamba.backward_blocks.0.mixer.out_proj.weight	(128, 512)	65536
+audio_model.blocks.5.inter_linear.weight	(256, 16, 4)	16384
+audio_model.blocks.5.inter_linear.bias	(16,)	16
+audio_model.blocks.5.attn_conv_Q_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_Q_0.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_Q_0.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_Q_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_Q_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_0.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_K_0.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_K_0.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_K_0.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_0.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_V_0.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.5.attn_conv_V_0.0.bias	(4,)	4
+audio_model.blocks.5.attn_conv_V_0.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_V_0.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_conv_V_0.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_conv_Q_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_Q_1.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_Q_1.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_Q_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_Q_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_1.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_K_1.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_K_1.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_K_1.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_1.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_V_1.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.5.attn_conv_V_1.0.bias	(4,)	4
+audio_model.blocks.5.attn_conv_V_1.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_V_1.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_conv_V_1.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_conv_Q_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_Q_2.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_Q_2.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_Q_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_Q_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_2.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_K_2.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_K_2.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_K_2.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_2.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_V_2.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.5.attn_conv_V_2.0.bias	(4,)	4
+audio_model.blocks.5.attn_conv_V_2.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_V_2.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_conv_V_2.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_conv_Q_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_Q_3.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_Q_3.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_Q_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_Q_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_3.0.weight	(2, 16, 1, 1)	32
+audio_model.blocks.5.attn_conv_K_3.0.bias	(2,)	2
+audio_model.blocks.5.attn_conv_K_3.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_K_3.2.gamma	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_K_3.2.beta	(1, 2, 1, 257)	514
+audio_model.blocks.5.attn_conv_V_3.0.weight	(4, 16, 1, 1)	64
+audio_model.blocks.5.attn_conv_V_3.0.bias	(4,)	4
+audio_model.blocks.5.attn_conv_V_3.1.weight	(1,)	1
+audio_model.blocks.5.attn_conv_V_3.2.gamma	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_conv_V_3.2.beta	(1, 4, 1, 257)	1028
+audio_model.blocks.5.attn_concat_proj.0.weight	(16, 16, 1, 1)	256
+audio_model.blocks.5.attn_concat_proj.0.bias	(16,)	16
+audio_model.blocks.5.attn_concat_proj.1.weight	(1,)	1
+audio_model.blocks.5.attn_concat_proj.2.gamma	(1, 16, 1, 257)	4112
+audio_model.blocks.5.attn_concat_proj.2.beta	(1, 16, 1, 257)	4112
+audio_model.deconv.weight	(16, 6, 3, 3)	864
+audio_model.deconv.bias	(6,)	6
+
+TOTAL_PARAMS		6045348
