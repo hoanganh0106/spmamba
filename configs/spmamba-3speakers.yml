@@ -96,3 +96,14 @@ datamodule:
 # Experiment config
 exp:
   exp_name: SPMamba-3Speakers-ColabT4
+
+# Logger config
+logger:
+  enabled: true
+  name: wandb
+  project: spmamba
+  run_name: SPMamba-3Speakers-ColabT4
+  entity: null
+  save_dir: /content/wandb        # ghi log wandb vào SSD local, KHÔNG ghi lên Drive (tránh lỗi FUSE)
+  offline: false
+  log_model: false

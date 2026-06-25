@@ -99,3 +99,14 @@ datamodule:
 # Experiment config
 exp:
   exp_name: SPMamba-H5-3Speakers-A100
+
+# Logger config
+logger:
+  enabled: true
+  name: wandb
+  project: spmamba
+  run_name: SPMamba-H5-3Speakers-A100
+  entity: null
+  save_dir: /content/wandb        # ghi log wandb vào SSD local, KHÔNG ghi lên Drive (tránh lỗi FUSE)
+  offline: false
+  log_model: false

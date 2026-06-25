@@ -56,6 +56,68 @@ parser.add_argument(
     default=None,
     help="Explicit checkpoint path to resume from",
 )
+parser.add_argument(
+    "--wandb",
+    action="store_true",
+    help="Enable Weights & Biases logging for this run",
+)
+parser.add_argument(
+    "--wandb_project",
+    default=None,
+    help="Weights & Biases project name",
+)
+parser.add_argument(
+    "--wandb_run_name",
+    default=None,
+    help="Weights & Biases run name",
+)
+parser.add_argument(
+    "--wandb_offline",
+    action="store_true",
+    help="Log to a local offline Weights & Biases run",
+)
+
+
+def build_logger(config, exp_dir):
+    logger_config = config.get("logger", {})
+    if not logger_config or not logger_config.get("enabled", False):
+        print_only("Logger disabled")
+        return False
+
+    logger_name = str(logger_config.get("name", "wandb")).lower()
+    if logger_name != "wandb":
+        raise ValueError(f"Unsupported logger: {logger_name}")
+
+    try:
+        from pytorch_lightning.loggers import WandbLogger
+    except ImportError as exc:
+        raise RuntimeError(
+            "W&B logging is enabled, but wandb is not installed. "
+            "Install it first, e.g. `pip install wandb`, then run `wandb login` "
+            "or set WANDB_API_KEY."
+        ) from exc
+
+    if logger_config.get("offline", False):
+        os.environ.setdefault("WANDB_MODE", "offline")
+
+    project = logger_config.get("project") or "spmamba"
+    run_name = logger_config.get("run_name") or config["exp"]["exp_name"]
+    save_dir = logger_config.get("save_dir") or exp_dir
+    os.makedirs(save_dir, exist_ok=True)  # wandb cần thư mục này tồn tại trước
+    log_model = logger_config.get("log_model", False)
+    entity = logger_config.get("entity")
+
+    kwargs = {
+        "project": project,
+        "name": run_name,
+        "save_dir": save_dir,
+        "log_model": log_model,
+    }
+    if entity:
+        kwargs["entity"] = entity
+
+    print_only(f"Instantiating WandbLogger project={project}, name={run_name}")
+    return WandbLogger(**kwargs)
 
 def main(config):
     print_only(
@@ -228,7 +290,7 @@ def main(config):
     gpus = config["training"]["gpus"] if torch.cuda.is_available() else None
     distributed_backend = "cuda" if torch.cuda.is_available() else None
 
-    # No external logger
+    trainer_logger = build_logger(config, exp_dir)
 
     trainer = pl.Trainer(
         precision=config["training"].get("precision", "16-mixed"),
@@ -241,7 +303,8 @@ def main(config):
         limit_train_batches=1.0,  # Useful for fast experiment
         gradient_clip_val=5.0,
         accumulate_grad_batches=config["training"].get("accumulate_grad_batches", 1),
-        logger=False,
+        logger=trainer_logger,
+        log_every_n_steps=config["training"].get("log_every_n_steps", 25),  # wandb cập nhật loss mỗi N step
         sync_batchnorm=True,
         # num_sanity_val_steps=0,
         # sync_batchnorm=True,
@@ -295,5 +358,18 @@ if __name__ == "__main__":
         arg_dic["main_args"]["resume"] = True
     if args.resume_ckpt:
         arg_dic["main_args"]["resume_ckpt"] = args.resume_ckpt
+    if args.wandb:
+        arg_dic.setdefault("logger", {})
+        arg_dic["logger"]["enabled"] = True
+        arg_dic["logger"]["name"] = "wandb"
+    if args.wandb_project:
+        arg_dic.setdefault("logger", {})
+        arg_dic["logger"]["project"] = args.wandb_project
+    if args.wandb_run_name:
+        arg_dic.setdefault("logger", {})
+        arg_dic["logger"]["run_name"] = args.wandb_run_name
+    if args.wandb_offline:
+        arg_dic.setdefault("logger", {})
+        arg_dic["logger"]["offline"] = True
 
     main(arg_dic)

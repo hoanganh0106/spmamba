@@ -91,3 +91,14 @@ datamodule:
 # Experiment config
 exp:
   exp_name: SPMamba-H5-3Speakers-RTX5080
+
+# Logger config
+logger:
+  enabled: true
+  name: wandb
+  project: spmamba
+  run_name: SPMamba-H5-3Speakers-RTX5080
+  entity: null
+  save_dir: null
+  offline: false
+  log_model: false

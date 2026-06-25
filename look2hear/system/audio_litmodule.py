@@ -112,6 +112,7 @@ class AudioLightningModule(pl.LightningModule):
         self.log(
             "train_loss",
             loss,
+            on_step=True,    # log mỗi step để wandb hiện tiến trình live trong epoch
             on_epoch=True,
             prog_bar=True,
             sync_dist=True,
