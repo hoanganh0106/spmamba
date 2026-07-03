@@ -1,0 +1,95 @@
+# SPMamba config for the HLS-CMDS heart/lung separation dataset on Colab T4.
+# Colab expects the prebuilt H5 at /content/data_hls.h5.
+# Recommended flow: build data_hls.h5 on laptop, zip it, upload to Drive,
+# then let train_hls_colab.ipynb extract/copy it to /content/data_hls.h5.
+
+audionet:
+  audionet_name: SPMamba
+  audionet_config:
+    input_dim: 257
+    n_srcs: 2
+    n_fft: 512
+    stride: 128
+    window: hann
+    n_imics: 1
+    n_layers: 6
+    lstm_hidden_units: 128
+    attn_n_head: 4
+    attn_approx_qk_dim: 512
+    emb_dim: 16
+    emb_ks: 4
+    emb_hs: 1
+    activation: prelu
+    eps: 1.0e-5
+    use_builtin_complex: True
+
+loss:
+  train:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_snr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+  val:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_sisdr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+
+training:
+  system: AudioLightningModule
+  gpus: [0]
+  parallel: null
+  epochs: 200
+  precision: 16-mixed
+  accumulate_grad_batches: 1
+  save_every_n_steps: 50
+  log_every_n_steps: 5
+  early_stop:
+    monitor: val_loss/dataloader_idx_0
+    mode: min
+    patience: 20
+    verbose: true
+  SpeedAug: False
+
+optimizer:
+  optim_name: adam
+  lr: 0.001
+  weight_decay: 0.000001
+
+scheduler:
+  sche_name: ReduceLROnPlateau
+  sche_config:
+    patience: 10
+    factor: 0.5
+    min_lr: 0.000001
+
+datamodule:
+  data_name: H5DataModule
+  data_config:
+    h5_path: /content/data_hls.h5
+    n_src: 2
+    sample_rate: 4000
+    segment: 4.0
+    normalize_audio: false
+    batch_size: 8
+    num_workers: 2
+    pin_memory: true
+    persistent_workers: true
+    val_ratio: 0.15
+    test_ratio: 0.10
+    seed: 42
+
+exp:
+  exp_name: SPMamba-HLS-HeartLung-T4
+
+logger:
+  enabled: true
+  name: wandb
+  project: spmamba
+  run_name: SPMamba-HLS-HeartLung-T4
+  entity: null
+  save_dir: /content/wandb
+  offline: false
+  log_model: false
