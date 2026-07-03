@@ -76,6 +76,9 @@ datamodule:
     num_workers: 2
     pin_memory: true
     persistent_workers: true
+    # data_hls.h5 (dynamic build) carries a source-disjoint /split, so the
+    # datamodule honours it and IGNORES val_ratio/test_ratio/seed below.
+    # These only take effect on an H5 without a /split dataset.
     val_ratio: 0.15
     test_ratio: 0.10
     seed: 42

@@ -22,6 +22,7 @@ wandb/
 *.wav
 *.flac
 *.mp3
+*.zip
 data/
 mixdata/
 

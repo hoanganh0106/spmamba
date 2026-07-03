@@ -203,23 +203,42 @@ class H5DataModule:
         self.data_test = None
 
     def setup(self):
-        """Split dataset into train/val/test with deterministic seed."""
+        """Split dataset into train/val/test.
+
+        If the H5 carries a predefined ``/split`` dataset (e.g. a
+        source-disjoint split written by build_hls_h5.py), it is honoured
+        as-is. Otherwise fall back to a deterministic random split by index.
+        """
         with h5py.File(self.h5_path, 'r') as f:
             total = int(f.attrs['n_samples'])
+            has_split = 'split' in f
+            if has_split:
+                labels = list(f['split'][:])
+                if labels and isinstance(labels[0], bytes):
+                    labels = [s.decode('utf-8') for s in labels]
 
-        # Deterministic split
-        rng = np.random.RandomState(self.seed)
-        indices = rng.permutation(total)
+        if has_split:
+            # Predefined split (no random reshuffle -> no source leakage)
+            train_idx = [i for i, s in enumerate(labels) if s == 'train']
+            val_idx = [i for i, s in enumerate(labels) if s == 'val']
+            test_idx = [i for i, s in enumerate(labels) if s == 'test']
+            n_train, n_val, n_test = len(train_idx), len(val_idx), len(test_idx)
+            print(f"[H5DataModule] Predefined split from file: "
+                  f"train={n_train}, val={n_val}, test={n_test}")
+        else:
+            # Deterministic random split by index
+            rng = np.random.RandomState(self.seed)
+            indices = rng.permutation(total)
 
-        n_test = int(total * self.test_ratio)
-        n_val = int(total * self.val_ratio)
-        n_train = total - n_val - n_test
+            n_test = int(total * self.test_ratio)
+            n_val = int(total * self.val_ratio)
+            n_train = total - n_val - n_test
 
-        train_idx = sorted(indices[:n_train].tolist())
-        val_idx = sorted(indices[n_train:n_train + n_val].tolist())
-        test_idx = sorted(indices[n_train + n_val:].tolist())
+            train_idx = sorted(indices[:n_train].tolist())
+            val_idx = sorted(indices[n_train:n_train + n_val].tolist())
+            test_idx = sorted(indices[n_train + n_val:].tolist())
 
-        print(f"[H5DataModule] Split: train={n_train}, val={n_val}, test={n_test}")
+            print(f"[H5DataModule] Random split: train={n_train}, val={n_val}, test={n_test}")
 
         self.data_train = H5Dataset(
             h5_path=self.h5_path,
