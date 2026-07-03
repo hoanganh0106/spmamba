@@ -23,15 +23,18 @@ audionet:
     eps: 1.0e-5
     use_builtin_complex: True
 
+# Fixed-order loss (no PIT): s1=heart, s2=lung are consistently ordered in
+# data_hls.h5, so training a fixed channel assignment means output ch0=heart,
+# ch1=lung at inference (no permutation ambiguity on raw mixtures).
 loss:
   train:
-    loss_func: PITLossWrapper
+    loss_func: FixedOrderLossWrapper
     sdr_type: pairwise_neg_snr
     config:
       pit_from: pw_mtx
       threshold_byloss: false
   val:
-    loss_func: PITLossWrapper
+    loss_func: FixedOrderLossWrapper
     sdr_type: pairwise_neg_sisdr
     config:
       pit_from: pw_mtx

@@ -16,6 +16,7 @@ from .matrix import multisrc_neg_sdsdr
 from .matrix import multisrc_neg_snr
 from .matrix import freq_mae_wavl1loss
 from .pit_wrapper import PITLossWrapper
+from .fixed_wrapper import FixedOrderLossWrapper
 from .mixit import MixITLossWrapper
 from .matrix import PairwiseNegSDR
 from .matrix import SingleSrcNegSDR
@@ -25,6 +26,7 @@ __all__ = [
     "SISNRi",
     "MixITLossWrapper",
     "PITLossWrapper",
+    "FixedOrderLossWrapper",
     "PairwiseNegSDR",
     "SingleSrcNegSDR",
     "singlesrc_neg_sisdr",
