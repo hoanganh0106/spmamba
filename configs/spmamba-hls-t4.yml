@@ -73,7 +73,7 @@ datamodule:
     sample_rate: 4000
     segment: 4.0
     normalize_audio: false
-    batch_size: 8
+    batch_size: 16
     num_workers: 2
     pin_memory: true
     persistent_workers: true
