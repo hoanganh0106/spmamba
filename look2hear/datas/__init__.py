@@ -9,6 +9,7 @@ from .libri2mixdatamodule import Libri2MixDataModule
 from .whamdatamodule import WhamDataModule
 from .threespeaker_datamodule import ThreeSpeakerDataModule
 from .h5_datamodule import H5DataModule
+from .hls_cls_datamodule import HLSClsDataModule, HLSClsDataset, aggregate_by_record
 
 __all__ = [
     "Echo2MixDataModule",
@@ -16,4 +17,7 @@ __all__ = [
     "WhamDataModule",
     "ThreeSpeakerDataModule",
     "H5DataModule",
+    "HLSClsDataModule",
+    "HLSClsDataset",
+    "aggregate_by_record",
 ]

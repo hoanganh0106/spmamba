@@ -1,0 +1,62 @@
+# Cau hinh bo phan loai am tim/phoi bat thuong (HLS-CMDS) tren Colab T4.
+#
+# Dung cho train_hls_cls.py. Phan `heart:` / `lung:` ghi de len phan chung.
+# Colab mong doi H5 phan loai o /content/data_hls_cls.h5, dung san bang:
+#   python build_hls_cls_h5.py --align-split-with /content/data_hls.h5 \
+#       --out /content/data_hls_cls.h5
+#
+# Luu y ve du lieu: chi co 50 ban ghi doc lap moi nhanh, lop nho nhat (S4) co 2
+# ban ghi. Mot lan chia train/val/test chi cho ~5 ban ghi test, nen de BAO CAO
+# hay chay cross-validation (--fold 0..4) roi lay trung binh, thay vi tin vao
+# mot lan chia duy nhat.
+
+data:
+  # 5s tren ban ghi 15s -> du dai de chua vai chu ky tim va vai nhip tho,
+  # van con du vi tri cat ngau nhien de tang cuong du lieu.
+  segment: 5.0
+  # Moi epoch lay mau moi ban ghi 8 lan, moi lan cat mot vi tri khac nhau.
+  repeat: 8
+  batch_size: 32
+  augment: true
+  pin_memory: true
+
+model:
+  channels: [32, 64, 128]
+  dropout: 0.3
+  head_dropout: 0.4
+  frontend:
+    sample_rate: 4000
+    n_fft: 256        # cua so 64 ms
+    hop_length: 64    # buoc 16 ms
+    n_mels: 64
+    f_min: 20.0
+    f_max: 2000.0     # = Nyquist o 4 kHz
+  specaugment:
+    n_freq_masks: 2
+    freq_mask_width: 8
+    n_time_masks: 2
+    time_mask_width: 16
+
+optim:
+  epochs: 60
+  lr: 0.0003
+  weight_decay: 0.0001
+  early_stop_patience: 20
+  # Tong mat mat = CE(da lop) + lambda_binary * BCE(nhi phan)
+  lambda_binary: 0.5
+  label_smoothing: 0.05
+
+# --- Ghi de rieng tung nhanh ------------------------------------------------ #
+heart:
+  # Tim co 10 lop tren 50 ban ghi (2-9 ban ghi/lop) nen kho hon phoi han:
+  # train lau hon va tang cuong manh hon de bot overfit.
+  optim:
+    epochs: 80
+  model:
+    specaugment:
+      time_mask_width: 24
+
+lung:
+  # Phoi chi co 6 lop va tieng ran/rit trai deu hon theo thoi gian.
+  optim:
+    epochs: 60
