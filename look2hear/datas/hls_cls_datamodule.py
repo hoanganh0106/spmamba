@@ -94,6 +94,7 @@ class HLSClsDataset(Dataset):
             n_folds = int(f.attrs.get("n_folds", 5))
             self.n_folds = n_folds
             self.split_source = str(f.attrs.get("split_source", "unknown"))
+            self.taxonomy = str(f.attrs.get("taxonomy", "full"))
             if split is not None:
                 keep = [i for i, s in enumerate(all_splits) if s == split]
                 self.subset_desc = f"split={split}"
@@ -428,6 +429,10 @@ class HLSClsDataModule:
     @property
     def split_source(self) -> str:
         return self.data_train.split_source
+
+    @property
+    def taxonomy(self) -> str:
+        return self.data_train.taxonomy
 
     def class_weights(self) -> torch.Tensor:
         return self.data_train.class_weights()

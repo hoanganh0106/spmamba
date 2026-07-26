@@ -218,8 +218,52 @@ lấy số liệu báo cáo.
 
 ---
 
-## Mở rộng dữ liệu
+## Dataset để pretrain / fine-tune
 
-50 bản ghi mỗi nhánh là quá ít để kết luận về 10 lớp. Xem
-[DATASETS.md](DATASETS.md) để biết các nguồn công khai dùng được cho pretrain và
-fine-tune.
+50 bản ghi mỗi nhánh là quá ít. Bốn bộ dưới đây đều **tải tự do, không cần đăng ký
+hay ký thoả thuận**, và đã được kiểm chứng từ trang chính thức (26/07/2026):
+
+| Bộ | Nhánh | Tải được | Tần số | License |
+|---|---|---|---|---|
+| [CirCor DigiScope](https://physionet.org/content/circor-heart-sound/1.0.3/) | tim | 3.163 bản ghi / 942 bệnh nhân | **4000 Hz** | ODC-By v1.0 |
+| [PhysioNet/CinC 2016](https://physionet.org/content/challenge-2016/1.0.0/) | tim | 3.240 bản ghi | 2000 Hz | ODC-By v1.0 |
+| [HF_Lung_V1](https://gitlab.com/techsupportHF/HF_Lung_V1) | phổi | 9.765 file × 15 s / 279 người | **4000 Hz** | CC BY 4.0 |
+| [SPRSound](https://github.com/SJTU-YONGFU-RESEARCH-GRP/SPRSound) | phổi | 2.683 bản ghi / 292 bệnh nhi | 8000 Hz | CC BY 4.0 |
+
+Vì sao đúng bốn bộ này:
+
+- **CirCor** thu ở đúng 4000 Hz như HLS-CMDS, và trường `Systolic murmur timing`
+  cho thẳng ba lớp Early / Mid / Late Systolic Murmur.
+- **CinC 2016** là kho lớn nhất cho head nhị phân (3.240 bản ghi, 2.575 bình thường).
+- **HF_Lung_V1** trùng khít định dạng của bạn: 4000 Hz, mỗi file đúng 15 giây.
+- **SPRSound** là **nguồn công khai duy nhất phân biệt được ran thô với ran mịn** —
+  ICBHI và HF_Lung_V1 đều gộp chung mọi tiếng ran.
+
+Ba cảnh báo quan trọng:
+
+- **CirCor tải về được 3.163 bản ghi, không phải 5.272.** Con số lớn hơn gồm cả 40%
+  bị giữ kín làm tập chấm của Challenge 2022 và sẽ không được phát hành.
+- **SPRSound có bẫy rò rỉ:** kho chứa các thư mục `Classification/`, `Detection/`,
+  `Compression/` là bản đóng gói lại của cùng audio. `glob` toàn kho lấy `*.wav` sẽ
+  đưa audio đánh giá vào tập huấn luyện. Chỉ dùng thư mục theo năm.
+- **Yaseen 2018 không có giấy phép nào** (`license: null`, không có file LICENSE).
+  Tải được nhưng rủi ro pháp lý cho luận văn — nên tránh.
+
+### Độ phủ so với phân loại của HLS-CMDS
+
+Dữ liệu công khai phủ **4/10 lớp tim** và **5/6 lớp phổi**. Không có nguồn nào cho
+AF, AV Block, Tachycardia, S3, S4, Late Diastolic Murmur (tim) và Pleural Rub (phổi).
+
+Vì vậy có tuỳ chọn phân loại rút gọn khớp đúng phần phủ được:
+
+```bash
+python build_hls_cls_h5.py --taxonomy public --align-split-with data_hls.h5 --out data_hls_cls.h5
+```
+
+Tim còn 5 lớp (Normal, Early/Mid/Late Systolic Murmur, Other Abnormal), phổi còn 6
+(Pleural Rub thành Other Abnormal). Không bản ghi nào bị vứt bỏ, và **nhãn nhị phân
+không đổi** — head "có bất thường hay không" vẫn dùng đủ 41/50 bản ghi bất thường
+của nhánh tim.
+
+Chi tiết đầy đủ (cách tải, ánh xạ từng lớp, cạm bẫy chia tập, công thức fine-tune
+cho từng nhánh): [DATASETS.md](DATASETS.md).

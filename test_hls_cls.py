@@ -54,7 +54,13 @@ from hls_cls_metrics import (
     format_multiclass_report,
     macro_f1,
 )
-from look2hear.datas.hls_labels import BRANCHES, classes as branch_classes, label_for
+from look2hear.datas.hls_labels import (
+    BRANCHES,
+    TAXONOMIES,
+    label_for,
+    map_label,
+    taxonomy_classes,
+)
 from look2hear.models import load_checkpoint
 
 DEFAULT_DATASET_ROOT = (
@@ -85,11 +91,19 @@ class BranchClassifier:
         self.seg_len = int(round(segment * self.sample_rate))
         self.hop = max(1, int(round(self.seg_len * hop_ratio)))
 
-        expected = branch_classes(self.branch)
+        # Phân loại (full / public) quyết định cách quy nhãn thật về chỉ số lớp ở
+        # các chế độ cascade, nên phải lấy từ chính checkpoint.
+        self.taxonomy = str(meta.get("taxonomy", "full"))
+        if self.taxonomy not in TAXONOMIES:
+            raise ValueError(
+                f"Checkpoint ghi taxonomy={self.taxonomy!r}, khong thuoc {TAXONOMIES}"
+            )
+        expected = taxonomy_classes(self.branch, self.taxonomy)
         if list(self.classes) != list(expected):
             raise ValueError(
                 f"Bang lop trong checkpoint khac bang lop hien tai cho nhanh "
-                f"'{self.branch}'.\n  checkpoint: {self.classes}\n  hien tai : {expected}\n"
+                f"'{self.branch}' (taxonomy={self.taxonomy}).\n"
+                f"  checkpoint: {self.classes}\n  hien tai : {expected}\n"
                 "  Nhan se bi gan sai. Train lai hoac kiem tra hls_labels.py."
             )
 
@@ -336,7 +350,7 @@ def run_cascade_synth(
                 stem = grp.attrs[branch]
                 if isinstance(stem, bytes):
                     stem = stem.decode()
-                true_name = label_for(str(stem), branch)
+                true_name = map_label(label_for(str(stem), branch), branch, clf.taxonomy)
                 prob_multi, prob_bin = clf.predict(est[CHANNEL_OF[branch]])
                 results[branch].add(
                     f"{mid}:{stem}", class_index[branch][true_name], prob_multi, prob_bin
@@ -388,11 +402,12 @@ def run_cascade_real(
         est = separate(separator, mixture, device)
 
         for branch, clf in classifiers.items():
-            true_name = row[type_col[branch]].strip()
+            true_name = map_label(row[type_col[branch]].strip(), branch, clf.taxonomy)
             if true_name not in class_index[branch]:
                 raise ValueError(
-                    f"{mid}: Mix.csv ghi loai '{true_name}' khong co trong bang lop "
-                    f"{branch}: {list(class_index[branch])}"
+                    f"{mid}: Mix.csv ghi loai '{row[type_col[branch]].strip()}' -> "
+                    f"'{true_name}' khong co trong bang lop {branch}: "
+                    f"{list(class_index[branch])}"
                 )
             prob_multi, prob_bin = clf.predict(est[CHANNEL_OF[branch]])
             results[branch].add(mid, class_index[branch][true_name], prob_multi, prob_bin)

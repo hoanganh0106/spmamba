@@ -324,6 +324,7 @@ def train(args: argparse.Namespace) -> Dict:
             # hạt giống khác nhau có cùng chỉ số fold nhưng khác bản ghi.
             train_record_ids=list(dm.data_train.record_ids),
             split_source=dm.split_source,
+            taxonomy=dm.taxonomy,
             h5_path=args.h5,
         )
         torch.save(checkpoint, out_dir / "last.pt")

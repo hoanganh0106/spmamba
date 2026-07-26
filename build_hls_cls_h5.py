@@ -67,7 +67,10 @@ def _load_hls_labels():
 _labels = _load_hls_labels()
 BRANCHES = _labels.BRANCHES
 NORMAL_CLASS = _labels.NORMAL_CLASS
+TAXONOMIES = _labels.TAXONOMIES
 classes = _labels.classes
+taxonomy_classes = _labels.taxonomy_classes
+map_label = _labels.map_label
 label_for = _labels.label_for
 list_records = _labels.list_records
 verify_against_csv = _labels.verify_against_csv
@@ -279,6 +282,7 @@ def build(
     n_folds: int,
     seed: int,
     allow_unaligned: bool = False,
+    taxonomy: str = "full",
 ) -> None:
     dataset_root = Path(dataset_root).expanduser().resolve()
     out = Path(out).expanduser().resolve()
@@ -303,12 +307,13 @@ def build(
         h5.attrs["split_source"] = str(align_with) if align_with else "stratified"
         h5.attrs["n_folds"] = n_folds
         h5.attrs["seed"] = seed
+        h5.attrs["taxonomy"] = taxonomy
 
         for branch in BRANCHES:
             print(f"\n{'=' * 60}\n[{branch}]\n{'=' * 60}")
             verify_against_csv(dataset_root, branch)
 
-            branch_classes = classes(branch)
+            branch_classes = taxonomy_classes(branch, taxonomy)
             cls_to_idx = {name: i for i, name in enumerate(branch_classes)}
             stems = list_records(dataset_root, branch)
             directory = wav_dir(dataset_root, branch)
@@ -322,9 +327,14 @@ def build(
                 if sr != sample_rate:
                     raise ValueError(f"{stem}.wav: mong doi {sample_rate} Hz, nhan {sr} Hz")
                 audio[i] = _fit_length(wav, target_length, stem)
-                name = label_for(stem, branch)
+                # Luôn gán nhãn đầy đủ trước rồi mới rút gọn: phép đối chiếu chéo
+                # với CSV chạy trên bảng nhãn đầy đủ, nên rút gọn sớm sẽ làm mất
+                # khả năng phát hiện ghép nhãn sai.
+                full_name = label_for(stem, branch)
+                name = map_label(full_name, branch, taxonomy)
                 label_idx[i] = cls_to_idx[name]
-                abnormal[i] = int(name != NORMAL_CLASS)
+                # Nhãn nhị phân suy từ nhãn ĐẦY ĐỦ, nên không đổi theo phân loại.
+                abnormal[i] = int(full_name != NORMAL_CLASS)
 
             if aligned is not None:
                 table = aligned[branch]
@@ -471,6 +481,16 @@ def parse_args() -> argparse.Namespace:
     )
     ap.add_argument("--val-frac", type=float, default=0.15, help="Chi dung khi khong align")
     ap.add_argument("--test-frac", type=float, default=0.10, help="Chi dung khi khong align")
+    ap.add_argument(
+        "--taxonomy",
+        choices=TAXONOMIES,
+        default="full",
+        help="full: giu nguyen 10 lop tim / 6 lop phoi. "
+        "public: chi giu cac lop CO nguon du lieu cong khai de pretrain "
+        "(tim: Normal + Early/Mid/Late Systolic Murmur; phoi: Normal + Coarse/Fine "
+        "Crackles + Rhonchi + Wheezing), phan con lai gom vao 'Other Abnormal'. "
+        "Xem DATASETS.md.",
+    )
     ap.add_argument("--n-folds", type=int, default=5, help="So fold cho cross-validation")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument(
@@ -495,6 +515,7 @@ def main() -> None:
         n_folds=args.n_folds,
         seed=args.seed,
         allow_unaligned=args.allow_unaligned_records,
+        taxonomy=args.taxonomy,
     )
 
 

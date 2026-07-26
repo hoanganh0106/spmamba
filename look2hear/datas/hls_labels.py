@@ -60,6 +60,54 @@ LUNG_CLASSES: List[str] = [NORMAL_CLASS] + sorted(
 
 BRANCHES = ("heart", "lung")
 
+# --------------------------------------------------------------------------- #
+# Phân loại rút gọn
+# --------------------------------------------------------------------------- #
+OTHER_CLASS = "Other Abnormal"
+
+# Các lớp có nguồn dữ liệu công khai để pretrain (xem DATASETS.md):
+#   tim  <- CirCor DigiScope, qua trường "Systolic murmur timing"
+#   phổi <- SPRSound (nguồn công khai duy nhất tách được ran thô/mịn)
+# Mọi lớp còn lại gộp vào OTHER_CLASS thay vì bị loại bỏ: chúng vẫn là bất
+# thường nên vẫn nuôi được head nhị phân, và bỏ đi sẽ mất 23/50 bản ghi tim.
+_PUBLIC_KEEP: Dict[str, List[str]] = {
+    "heart": [
+        NORMAL_CLASS,
+        "Early Systolic Murmur",
+        "Mid Systolic Murmur",
+        "Late Systolic Murmur",
+    ],
+    "lung": [
+        NORMAL_CLASS,
+        "Coarse Crackles",
+        "Fine Crackles",
+        "Rhonchi",
+        "Wheezing",
+    ],
+}
+
+TAXONOMIES = ("full", "public")
+
+
+def taxonomy_classes(branch: str, taxonomy: str = "full") -> List[str]:
+    """Danh sách lớp theo phân loại đã chọn. ``Normal`` luôn ở chỉ số 0."""
+    branch = _check_branch(branch)
+    if taxonomy == "full":
+        return classes(branch)
+    if taxonomy == "public":
+        return list(_PUBLIC_KEEP[branch]) + [OTHER_CLASS]
+    raise ValueError(f"taxonomy phai thuoc {TAXONOMIES}, nhan duoc {taxonomy!r}")
+
+
+def map_label(name: str, branch: str, taxonomy: str = "full") -> str:
+    """Đưa một tên lớp đầy đủ về tên lớp trong phân loại đã chọn."""
+    branch = _check_branch(branch)
+    if taxonomy == "full":
+        return name
+    if taxonomy == "public":
+        return name if name in _PUBLIC_KEEP[branch] else OTHER_CLASS
+    raise ValueError(f"taxonomy phai thuoc {TAXONOMIES}, nhan duoc {taxonomy!r}")
+
 # (thư mục WAV, tên file CSV, cột loại âm, cột ID) theo từng nhánh.
 _BRANCH_SPEC = {
     "heart": ("HS/HS", "HS.csv", "Heart Sound Type", "Heart Sound ID"),
