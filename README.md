@@ -12,3 +12,13 @@
 ```bash
 python audio_train.py --conf_dir configs/spmamba-h5-a100.yml
 ```
+
+## Hai giai đoạn
+
+Kho này gồm hai giai đoạn nối tiếp nhau:
+
+1. **Tách âm** — SPMamba tách hỗn hợp thành kênh tim và kênh phổi (`audio_train.py`,
+   `test_hls.py`, `configs/spmamba-*.yml`).
+2. **Nhận dạng âm bất thường** — phân loại từng kênh đã tách. Xem hướng dẫn riêng ở
+   [README_HLS_CLS.md](README_HLS_CLS.md), và [DATASETS.md](DATASETS.md) cho các
+   nguồn dữ liệu công khai dùng để pretrain/fine-tune.
