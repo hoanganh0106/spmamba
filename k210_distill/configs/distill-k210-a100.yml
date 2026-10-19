@@ -1,0 +1,108 @@
+# Cấu hình huấn luyện Online Knowledge Distillation cho Kendryte K210
+# Cụm máy chủ: NVIDIA DGX A100 80GB (ĐH Bách Khoa Hà Nội - SLURM)
+#
+# Teacher: SPMamba (epoch=91-best.ckpt, 6.04M params, 16kHz)
+# Student: K210SepUNet (508,227 params, 8kHz, 100% KPU hardware operators, ~1.48 MB / 2 MB KPU SRAM)
+#
+# Chạy thử 1 batch kiểm tra:
+#   python distill_train.py --conf_dir configs/distill-k210-a100.yml --fast_dev_run
+# Chạy huấn luyện thật (trong SLURM job):
+#   python distill_train.py --conf_dir configs/distill-k210-a100.yml --h5_path data/data.h5
+
+audionet:
+  audionet_name: K210SepUNet
+  audionet_config:
+    input_dim: 129            # n_fft // 2 + 1 (tự cắt 128 bins đưa vào KPU UNet)
+    n_srcs: 3                 # Tách 3 người nói
+    n_fft: 256                # 256-point STFT (32 ms @ 8 kHz)
+    stride: 128               # hop_length = 128 (16 ms @ 8 kHz)
+    window: hann
+    channels: [32, 96, 192]   # Bản Large tận dụng 2MB KPU SRAM (508K params KPU)
+    bottleneck_ch: 272
+    eps: 1.0e-5
+    sample_rate: 8000         # Student hoạt động ở 8 kHz
+    use_riscv_attention: true # Bật Dual-Path BiGRU + Multi-Head Attention + Complex Phase trên CPU RISC-V FPU
+
+distill:
+  enabled: false              # Tắt suy luận Teacher online để tăng tốc 40x (~1.5 phút/epoch), học trực tiếp từ nhãn sạch + Complex STFT
+  init_ckpt: /home/user05/my_project/Experiments/checkpoint/K210-SepUNet-Distill-A100/best_k210.ckpt
+  teacher_ckpt: /home/user05/my_project/output/epoch=91-best.ckpt
+  student_sample_rate: 8000
+  alpha_hard: 1.0             # Trọng số PIT SI-SNR so với nhãn thật 8 kHz
+  beta_tea_wav: 0.0
+  gamma_tea_mag: 1.0          # Trọng số Complex STFT (Log-Mag + Real/Imag)
+
+dynamic_mix:
+  enabled: true               # Trộn lại nguồn trong batch mỗi step chống overfit
+  prob: 0.7                   # 70% batch được trộn lại, 30% giữ mixture gốc
+  gain_db: 2.5                # Gain ngẫu nhiên ±2.5 dB cho từng nguồn
+
+loss:
+  train:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_sisdr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+  val:
+    loss_func: PITLossWrapper
+    sdr_type: pairwise_neg_sisdr
+    config:
+      pit_from: pw_mtx
+      threshold_byloss: false
+
+training:
+  system: DistillLightningModule
+  gpus: [0]
+  parallel: null
+  epochs: 400
+  precision: bf16-mixed       # A100 80GB: BF16 nhanh và không bị tràn số
+  accumulate_grad_batches: 1
+  log_every_n_steps: 20
+  early_stop:
+    monitor: val_loss/dataloader_idx_0
+    mode: min
+    patience: 25
+    verbose: true
+  SpeedAug: False
+
+optimizer:
+  optim_name: adamw
+  lr: 0.001                   # LR chuẩn cho Dual-Path BiGRU + Self-Attention + Warm-start CNN
+  weight_decay: 0.0001
+
+scheduler:
+  sche_name: ReduceLROnPlateau
+  sche_config:
+    patience: 4
+    factor: 0.5
+    min_lr: 0.000001
+
+datamodule:
+  data_name: H5DataModule
+  data_config:
+    h5_path: /home/user05/my_project/data/data_30h.h5
+    n_src: 3
+    sample_rate: 16000        # data_30h.h5 gốc ở 16 kHz (DistillLightningModule tự hạ xuống 8 kHz trên GPU)
+    segment: 4.0
+    normalize_audio: false
+    batch_size: 48            # A100 80GB: tối ưu cho Dual-Path Attention + BiGRU
+    num_workers: 12           # Tận dụng 16 nhân CPU cấp cho mỗi job SLURM HUST
+    pin_memory: true
+    persistent_workers: true
+    val_ratio: 0.1
+    test_ratio: 0.05
+    seed: 42
+
+exp:
+  exp_name: K210-SepUNet-Attention-A100
+
+logger:
+  enabled: false              # Bật bằng cờ --wandb hoặc --wandb --wandb_offline
+  name: wandb
+  project: spmamba-k210
+  run_name: K210-SepUNet-Hybrid-Attention-8kHz
+  entity: null
+  save_dir: wandb_logs
+  offline: false
+  log_model: false

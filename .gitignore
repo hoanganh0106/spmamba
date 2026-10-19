@@ -1,5 +1,5 @@
+# Python byte-compiled / caches
 *.pyc
-*.DS_Store
 __pycache__/
 *.egg-info/
 dist/
@@ -8,15 +8,25 @@ build/
 *.so
 *.o
 
-# Training outputs
+# Training outputs & model weights
 checkpoints/
+Experiments/
 logs/
 lightning_logs/
 wandb/
+wandb_logs/
+out/
+output_k210/
+*/output_k210/
 *.ckpt
 *.pth
+*.pt
+*.onnx
+*.kmodel
+*.bin
+*.npy
 
-# Data files
+# Data & audio files
 *.h5
 *.hdf5
 *.wav
@@ -26,10 +36,18 @@ wandb/
 data/
 mixdata/
 
-# IDE
+# IDE & OS
 .vscode/
 .idea/
-
-# OS
+*.DS_Store
+__MACOSX/
+._*
 Thumbs.db
 Desktop.ini
+
+# AI assistants / local agent workspaces
+.claude/
+.codex/
+.cursor/
+.trellis/
+AGENTS.md
